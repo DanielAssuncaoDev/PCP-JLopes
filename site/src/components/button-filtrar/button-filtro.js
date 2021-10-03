@@ -1,5 +1,4 @@
 import styled from "styled-components"
-
 const Conatainer = styled.div `
 background-color: #7A6FFF;
 display: flex;
