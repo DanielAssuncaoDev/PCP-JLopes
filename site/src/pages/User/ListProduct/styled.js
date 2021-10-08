@@ -64,11 +64,17 @@ tbody {
 }
 
 button {
+    position: fixed;
+    bottom: 1em;
+
     border: none;
     background-color: #12E100;
+    border-radius: 5px;
+    cursor: pointer;
+
     width: 12em;
     padding: 15px 0px;
-    border-radius: 5px;
+    
 
     &:hover {
         background-color: #097600;

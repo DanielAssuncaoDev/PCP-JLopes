@@ -14,8 +14,8 @@ input {
     
     }
 div {
-    position: absolute;
-    left: 66.8em;
+    position: relative;
+    right: .8em;
     width: 2em;
     border: 2px solid #3E3838;
     background-color: #3E3838;

@@ -43,7 +43,7 @@ export default function ListarProduto() {
                         <td>R$: 150,00</td>
                         <td>R$: 450,00</td>
                         <td> 22/22/2222</td>
-                        <td> <img src="./assets/images/editar.svg" alt=""/></td>
+                        <td> <img src="./assets/images/editar (1) 5.svg" alt=""/></td>
                         <td> <img src="./assets/images/Vector.svg" alt=""/></td>
                     </tr>
                 </tbody>
