@@ -19,6 +19,7 @@ export default function ListarProduto() {
                     <div>  <Button/> </div>
                 </div>
                 <div className="table">
+                    
                     <thead>
                         <th> Nome </th>
                         <th> Categoria </th>

@@ -1,10 +1,14 @@
 import styled from "styled-components"
-
+import { Link } from "react-router-dom"
 const Conatainer = styled.div `
 background-color: #17191A;
 height: 100vh;
 width: 16em;
-
+a{
+    text-decoration: none;
+    outline: none;
+    color: black;
+}
 .barra {
     margin-top: 3em;
     border: 2px solid none;
@@ -54,23 +58,34 @@ export default function Menu(Props) {
         <div className="image"> wdwefwf </div>
         <div className="barra"></div>
         <div className="box">
-            <div className="n1"> 
-                <div className="b1"> </div>  
-                <div className="name"> Cadastrar Produtos</div>
-            </div>
-            <div className="n2"> 
-                <div className="b1"> </div>
-                <div className="name"> Listar Produtos </div>
-             </div>
-            <div className="n3">
-                <div className="b1"> </div> 
-                <div className="name">  Movimentação de Estoque  </div> 
-            </div>
-            <div className="n4">
-                <div className="b1"> </div>
-                <div className="name"> Sugestão de Reposição  </div> 
-            </div>
+            
+            <Link to="/Register">
+                <div className="n1"> 
+                    <div className="b1"> </div>  
+                    <div className="name">   Cadastrar Produtos </div> 
+                </div>
+            </Link>
 
+            <Link to="/List">
+                <div className="n2"> 
+                    <div className="b1"> </div>
+                    <div className="name"> Listar Produtos </div> 
+                </div>
+             </Link>
+
+             <Link to="/Movement"> 
+                <div className="n3">
+                    <div className="b1"> </div> 
+                    <div className="name">  Movimentação de Estoque  </div>  
+                </div>
+            </Link>
+
+            <Link to="/Replacement">
+                <div className="n4">
+                    <div className="b1"> </div>
+                    <div className="name"> Sugestão de Reposição  </div>
+                </div>
+            </Link>
         </div>
     </Conatainer>
     )

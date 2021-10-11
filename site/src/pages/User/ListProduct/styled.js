@@ -5,10 +5,11 @@ display: flex;
 flex-direction: row;
 
 .n2 {
-    background-color: #33E4FC;
-            .b1 {
+    background-color: #33E4FC !important;
+    .b1 {
                 background-color: red;
-            }   
+
+            }      
 }
 
 `

@@ -7,10 +7,11 @@ flex-direction: row;
 
 
 .n1 {
-    background-color: #33E4FC;
-            .b1 {
+    background-color: #33E4FC !important;
+    .b1 {
                 background-color: red;
-            }   
+
+            }         
 }
 
 .name, .a > div {
@@ -32,12 +33,19 @@ select {
 `
 
 const ConRegister = styled.div`
+
+
+
     background-color: #f5f5f5f5;
+
+.gg {
+    margin-left: 6em;
+}
 
 .box {
     background-color: white;
     border-radius: 5px;
-    margin: 4em 6em;
+    margin: 1em 6em;
 }
 .boxinput {
     display: flex;

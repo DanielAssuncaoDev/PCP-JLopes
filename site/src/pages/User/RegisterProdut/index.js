@@ -1,5 +1,6 @@
 
 import {ConRegister, Container} from "./styled"
+import Titulo from '../../../components/user-titulo/styled'
 import Cabecalho from '../../../components/cabecalho/styled'
 import Menu from '../../../components/menuUser/styled'
 
@@ -10,6 +11,7 @@ export default function Register() {
             <Menu />
             <ConRegister>
                 <Cabecalho />
+                <div className="gg"> <Titulo nome="Cadastrar Produtos"/> </div>
                 <div className="box">
                     <div className="boxinput"> 
                         <div> <Inputs typee="text" nome="Nome do Produto"/> </div>
@@ -19,6 +21,9 @@ export default function Register() {
                         <div className="a">   <div> Categoria</div>
                                 <select name="categoria" id="categoria">
                                     <option value="">Escolher</option>
+
+                                    <option value="">Adicionar Categoria</option>
+
                                 </select> 
                         </div>
                         <div> <Inputs typee="number" nome="Estoque Minímo"/></div>

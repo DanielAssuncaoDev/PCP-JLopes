@@ -7,7 +7,7 @@ background-color: #F5F5F5;
 
 
 .n3 {
-    background-color: #33E4FC;
+    background-color: #33E4FC !important;
             .b1 {
                 background-color: red;
             }   
