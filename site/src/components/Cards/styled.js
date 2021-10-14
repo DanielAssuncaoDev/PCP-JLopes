@@ -10,7 +10,7 @@ cursor: pointer;
 background-color: #1997BE;
 border-radius: 5px;
 
-padding: 4em 1em;
+padding: 2em 1em;
 width: 20em;
 
 
