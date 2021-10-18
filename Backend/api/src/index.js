@@ -428,6 +428,53 @@ app.use(express.json())
     })
 
 
+    app.get('/usuarioscadastrados', async (req, resp) => {
+        try { 
+             let usuarios = await db.pcpjp2021_tb_usuario.findAll ({
+                where: { 
+                    bt_ativo: true,
+                    nm_usuario: " ",
+                    ds_email: " ",
+                    ds_turma: " ",
+                    nr_chamada: " "
+                }
+            })
+        resp.send(usuarios)
+
+        } catch (e) {
+            resp.send({erro: e.toString()})
+        }
+    })
+
+    app.delete('/usuarioscadastrados/:idUsuario', async (req, resp) =>{
+        try{
+            let deletarUsu = await db.pcpjp2021_tb_usuario.destroy({
+                where: {
+                    id_usuario: req.params.idUsuario
+                }
+            })
+        
+        resp.sendStatus(200)
+
+        } catch (e) {
+            resp.send({erro: e.toString()})
+        }
+    })
+
+    app.get('/controleestoque', async (req, resp) => {
+        try { 
+            let controleEstoque = await db.pcpjp2021_tb_usuario.findAll({
+                where: {
+                    nm_usuario: " ",
+                    ds_email: " ",
+                }
+            })           
+       resp.send(usuarios)
+
+       } catch (e) {
+           resp.send({erro: e.toString()})
+       }
+    })
 
 app.listen(process.env.PORT,
                 x => console.log('Server up at port ' + process.env.PORT))
