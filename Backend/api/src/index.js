@@ -470,13 +470,13 @@ app.use(express.json())
                 // where: {
 
                 //},
-                include: ['pcpjp2021_tb_produto']
+                include: ['id_produto_pcpjp2021_tb_produto']
                 
                 // include: {
-                //     model: 'pcpjp2021_tb_produto',
-                //     include: {
-                //         model: 'pcpjp2021_tb_usuario'
-                //     }
+                //     model: 'pcpjp2021_tb_produtos'
+                    // include: {
+                    //     model: 'pcpjp2021_tb_usuario'
+                    // }
                 // }
             })
        resp.send(controleEsto)
