@@ -23,6 +23,12 @@ export default function initModels(sequelize) {
   var tb_sala = _tb_sala.init(sequelize, DataTypes);
   var tb_usuario = _tb_usuario.init(sequelize, DataTypes);
 
+  pcpjp2021_tb_usuario.belongsTo(pcpjp2021_tb_produto, { as: "pcpjp2021_tb_produto", foreignKey: "id_usuario" });
+  pcpjp2021_tb_produto.hasMany(pcpjp2021_tb_usuario, {as: "pcpjp2021_tb_usuario", foreignKey: "id_usuario"})
+
+  pcpjp2021_tb_produto.belongsTo(pcpjp2021_tb_controle_estoque, {as: "pcpjp2021_tb_controle_estoque", foreignKey: "id_produto"})
+  pcpjp2021_tb_controle_estoque.hasMany(pcpjp2021_tb_produto, {as: "pcpjp2021_tb_produto", foreignKey: "id_produto"})
+
 
   return {
     pcpjp2021_tb_adm,
