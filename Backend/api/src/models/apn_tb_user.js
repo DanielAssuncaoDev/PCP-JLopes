@@ -1,26 +1,34 @@
 import _sequelize from 'sequelize';
 const { Model, Sequelize } = _sequelize;
 
-export default class pcpjp2021_tb_adm extends Model {
+export default class apn_tb_user extends Model {
   static init(sequelize, DataTypes) {
   super.init({
-    id_adm: {
+    ID_USER: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    ds_codigo: {
-      type: DataTypes.STRING(200),
+    NM_USER: {
+      type: DataTypes.STRING(100),
       allowNull: true
     },
-    ds_senha: {
+    NM_SOBRENOME: {
       type: DataTypes.STRING(100),
+      allowNull: true
+    },
+    DS_EMAIL: {
+      type: DataTypes.STRING(100),
+      allowNull: true
+    },
+    DS_SENHA: {
+      type: DataTypes.STRING(32),
       allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'pcpjp2021_tb_adm',
+    tableName: 'apn_tb_user',
     timestamps: false,
     indexes: [
       {
@@ -28,11 +36,11 @@ export default class pcpjp2021_tb_adm extends Model {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "id_adm" },
+          { name: "ID_USER" },
         ]
       },
     ]
   });
-  return pcpjp2021_tb_adm;
+  return apn_tb_user;
   }
 }

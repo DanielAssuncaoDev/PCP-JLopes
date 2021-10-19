@@ -1,26 +1,26 @@
 import _sequelize from 'sequelize';
 const { Model, Sequelize } = _sequelize;
 
-export default class pcpjp2021_tb_adm extends Model {
+export default class apn_tb_adm extends Model {
   static init(sequelize, DataTypes) {
   super.init({
-    id_adm: {
+    ID_ADM: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    ds_codigo: {
-      type: DataTypes.STRING(200),
+    DS_COD: {
+      type: DataTypes.STRING(100),
       allowNull: true
     },
-    ds_senha: {
+    DS_SENHA: {
       type: DataTypes.STRING(100),
       allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'pcpjp2021_tb_adm',
+    tableName: 'apn_tb_adm',
     timestamps: false,
     indexes: [
       {
@@ -28,11 +28,11 @@ export default class pcpjp2021_tb_adm extends Model {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "id_adm" },
+          { name: "ID_ADM" },
         ]
       },
     ]
   });
-  return pcpjp2021_tb_adm;
+  return apn_tb_adm;
   }
 }

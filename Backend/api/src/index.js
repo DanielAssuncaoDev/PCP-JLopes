@@ -3,9 +3,9 @@ import express from 'express';
 import cors from 'cors';
 import crypto from 'crypto-js' 
 import require from 'sequelize'
-import pcpjp2021_tb_produto from './models/pcpjp2021_tb_produto.js';
-import pcpjp2021_tb_controle_estoque from './models/pcpjp2021_tb_controle_estoque.js';
-import pcpjp2021_tb_usuario from './models/pcpjp2021_tb_usuario.js';
+// import pcpjp2021_tb_produto from './models/pcpjp2021_tb_produto.js';
+// import pcpjp2021_tb_controle_estoque from './models/pcpjp2021_tb_controle_estoque.js';
+// import pcpjp2021_tb_usuario from './models/pcpjp2021_tb_usuario.js';
 
 const app = new express()
 app.use(cors())
@@ -464,18 +464,20 @@ app.use(express.json())
         }
     })
 
-    app.get('/controleestoque', async (req, resp) => {
-        try{
-            let controleEstoque = await db.pcpjp2021_tb_controle_estoque.findAll({
-                where: {
-                    nm_usuario: " ",
-                    ds_email: " ",
-                    nm_produto: " ",
-                    nr_codigo: " ",
-                    ds_movimentacao: " ",
-                    qtd_produtos: " "
-                }, 
-                include: ['pcpjp2021_tb_usuario','pcpjp2021_tb_produto']
+    app.get('/controleEstoque', async (req, resp) => {
+        try { 
+            let controleEsto = await db.pcpjp2021_tb_controle_estoque.findAll({
+                // where: {
+
+                //},
+                include: ['pcpjp2021_tb_produto']
+                
+                // include: {
+                //     model: 'pcpjp2021_tb_produto',
+                //     include: {
+                //         model: 'pcpjp2021_tb_usuario'
+                //     }
+                // }
             })
         } catch (e) {
             resp.send({erro: e.toString()})
