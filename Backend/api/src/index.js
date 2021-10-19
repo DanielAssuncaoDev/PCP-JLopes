@@ -3,9 +3,9 @@ import express from 'express';
 import cors from 'cors';
 import crypto from 'crypto-js' 
 import require from 'sequelize'
-import pcpjp2021_tb_produto from './models/pcpjp2021_tb_produto.js';
-import pcpjp2021_tb_controle_estoque from './models/pcpjp2021_tb_controle_estoque.js';
-import pcpjp2021_tb_usuario from './models/pcpjp2021_tb_usuario.js';
+// import pcpjp2021_tb_produto from './models/pcpjp2021_tb_produto.js';
+// import pcpjp2021_tb_controle_estoque from './models/pcpjp2021_tb_controle_estoque.js';
+// import pcpjp2021_tb_usuario from './models/pcpjp2021_tb_usuario.js';
 
 const app = new express()
 app.use(cors())
@@ -467,10 +467,17 @@ app.use(express.json())
     app.get('/controleEstoque', async (req, resp) => {
         try { 
             let controleEsto = await db.pcpjp2021_tb_controle_estoque.findAll({
-                where: {
+                // where: {
 
-                },
-                include: ['pcpjp2021_tb_produto', 'pcpjp2021_tb_usuario']
+                //},
+                include: ['pcpjp2021_tb_produto']
+                
+                // include: {
+                //     model: 'pcpjp2021_tb_produto',
+                //     include: {
+                //         model: 'pcpjp2021_tb_usuario'
+                //     }
+                // }
             })
        resp.send(controleEsto)
 

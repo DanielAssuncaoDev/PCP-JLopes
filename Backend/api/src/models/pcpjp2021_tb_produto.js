@@ -12,7 +12,11 @@ export default class pcpjp2021_tb_produto extends Model {
     },
     id_usuario: {
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: true,
+      references: {
+        model: 'pcpjp2021_tb_usuario',
+        key: 'id_usuario'
+      }
     },
     nm_produto: {
       type: DataTypes.STRING(200),
