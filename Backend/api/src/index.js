@@ -464,19 +464,22 @@ app.use(express.json())
         }
     })
 
-    app.get('/controleEstoque', async (req, resp) => {
-        try { 
-            let controleEsto = await db.pcpjp2021_tb_controle_estoque.findAll({
+    app.get('/controleestoque', async (req, resp) => {
+        try{
+            let controleEstoque = await db.pcpjp2021_tb_controle_estoque.findAll({
                 where: {
-
-                },
-                include: ['pcpjp2021_tb_produto', 'pcpjp2021_tb_usuario']
+                    nm_usuario: " ",
+                    ds_email: " ",
+                    nm_produto: " ",
+                    nr_codigo: " ",
+                    ds_movimentacao: " ",
+                    qtd_produtos: " "
+                }, 
+                include: ['pcpjp2021_tb_usuario','pcpjp2021_tb_produto']
             })
-       resp.send(controleEsto)
-
-       } catch (e) {
-           resp.send({erro: e.toString()})
-       }
+        } catch (e) {
+            resp.send({erro: e.toString()})
+        }
     })
 
 app.listen(process.env.PORT,
