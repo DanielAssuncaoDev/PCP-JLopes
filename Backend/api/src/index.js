@@ -479,11 +479,9 @@ app.use(express.json())
                     }
                 }
             })
-       resp.send(controleEsto)
-
-       } catch (e) {
-           resp.send({erro: e.toString()})
-       }
+        } catch (e) {
+            resp.send({erro: e.toString()})
+        }
     })
 
 app.listen(process.env.PORT,
