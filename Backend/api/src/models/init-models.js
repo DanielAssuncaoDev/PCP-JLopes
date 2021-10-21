@@ -36,6 +36,20 @@ export default function initModels(sequelize) {
   pcpjp2021_tb_produto.belongsTo(pcpjp2021_tb_usuario, { as: "id_usuario_pcpjp2021_tb_usuario", foreignKey: "id_usuario"});
   pcpjp2021_tb_usuario.hasMany(pcpjp2021_tb_produto, { as: "pcpjp2021_tb_produtos", foreignKey: "id_usuario"});
 
+
+  // pcpjp2021_tb_usuario.belongsToMany(pcpjp2021_tb_produto, {  
+  //   through: 'Tb_Descolada',
+  //   through: 'User_Produto',
+  //   foreignKey: 'id_usuario'
+  // })
+
+  // pcpjp2021_tb_produto.belongsToMany(pcpjp2021_tb_usuario, {  
+  //   foreignKey: 'id_usuario',
+  //   through: 'User_Produto'
+  //   sourceKey: 'id_usuario'
+  //   sourceKey: 'id_usuario'
+  // })
+
   return {
     apn_tb_adm,
     apn_tb_adocao,

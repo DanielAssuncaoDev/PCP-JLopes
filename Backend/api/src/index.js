@@ -21,7 +21,7 @@ app.use(express.json())
             let tbProduto = await db.pcpjp2021_tb_usuario.findAll()
 
 
-            if(cd.nome == '' || cd.email == '' || cd.turma == '' || String(cd.chamada) == '' || cd.senha == '' ){
+            if(cd.nome == '' || cd.email == '' || cd.senha == '' ){
                 resp.send({erro: 'Todos os campos devem estar preenchidos'})
             }
 
@@ -30,38 +30,40 @@ app.use(express.json())
                 return
             }
 
-            if(cd.email.substring((cd.email.indexOf('@')) ) != '@acaonsfatima.org.br' ) {
-                resp.send({erro: 'Deve ser cadastrado um E-mail da instituição'})
-                return
-            }
+            // if(cd.email.substring((cd.email.indexOf('@')) ) != '@acaonsfatima.org.br' ) {
+            //     resp.send({erro: 'Deve ser cadastrado um E-mail da instituição'})
+            //     return
+            // }
 
 
-            if(isNaN(cd.chamada)){
-                resp.send({erro: 'A chamada deve ser um número'})
-                return
-            }
+            // if(isNaN(cd.chamada)){
+            //     resp.send({erro: 'A chamada deve ser um número'})
+            //     return
+            // }
 
-            if((cd.chamada) <= 0 ){
-                resp.send({erro: 'A chamada deve ser maior que zero'})
-            }
+            // if((cd.chamada) <= 0 ){
+            //     resp.send({erro: 'A chamada deve ser maior que zero'})
+            // }
 
-            if(tbProduto.some( x => x.dataValues.ds_turma == cd.turma && x.dataValues.nr_chamada == cd.chamada )){
-                resp.send({erro: "O número de chamada " + cd.chamada + " ja foi cadastrado na turma " + cd.turma })
-                return
-            }
+            // if(tbProduto.some( x => x.dataValues.ds_turma == cd.turma && x.dataValues.nr_chamada == cd.chamada )){
+            //     resp.send({erro: "O número de chamada " + cd.chamada + " ja foi cadastrado na turma " + cd.turma })
+            //     return
+            // }
 
 
                 let inserirCadastro = {
                     nm_usuario: cd.nome,
                     ds_email: cd.email,
-                    ds_turma: cd.turma,
-                    nr_chamada: cd.chamada,
+                    // ds_turma: cd.turma,
+                    // nr_chamada: cd.chamada,
                     ds_senha: crypto.SHA256(cd.senha).toString(crypto.enc.Base64),
                     bt_ativo: false
                 }
 
             let r = await db.pcpjp2021_tb_usuario.create(inserirCadastro)
-            resp.sendStatus(200)
+                delete(r.dataValues.ds_senha)
+
+            resp.send(r)
 
         } catch (e) {
            resp.send({erro: e.toString() }) 
@@ -69,7 +71,24 @@ app.use(express.json())
 
     })
 
-    app.post('/login', async (req, resp) => {
+    app.get('/gerenciarLogin/:idUsuario', async (req, resp) => {
+
+        try {
+            let r = await db.pcpjp2021_tb_usuario.findOne({
+                where: {
+                    id_usuario: req.params.idUsuario
+                }
+            })
+
+            resp.send(r)
+            
+        } catch (e) {
+            resp.send({erro: e.toString()})            
+        }
+
+    })
+
+    app.get('/login', async (req, resp) => {
 
         try {
             let user = req.body;
@@ -255,7 +274,7 @@ app.use(express.json())
 
     })
 
-    app.put('/produto/:idProduto/:idUsuario', async (req, resp) => {
+    app.put('/produto/:idProduto', async (req, resp) => {
 
         try {
             let p = req.body
@@ -322,7 +341,6 @@ app.use(express.json())
 
             
                 let r = await db.pcpjp2021_tb_produto.update({
-                        id_usuario: req.params.idUsuario,
                         nm_produto: p.nome,
                         ds_categoria: p.categoria,
                         nr_codigo: p.codigoP,
@@ -431,6 +449,11 @@ app.use(express.json())
     })
 
 
+
+
+
+    
+
     app.get('/usuarioscadastrados', async (req, resp) => {
         try { 
              let usuarios = await db.pcpjp2021_tb_usuario.findAll ({
@@ -471,14 +494,19 @@ app.use(express.json())
 
                 //},
                 // include: ['id_produto_pcpjp2021_tb_produto']
-                
-                include: {
+
+                include: [{
                     model: 'id_produto_pcpjp2021_tb_produto',
-                    include: {
-                        model: 'id_usuario_pcpjp2021_tb_usuario'
-                    }
-                }
+                        include: {
+                            model: 'pcpjp2021_tb_usuario',
+                            required: true,
+                            right: true
+                        }
+                }]
             })
+            
+            resp.send(controleEsto)
+
         } catch (e) {
             resp.send({erro: e.toString()})
         }

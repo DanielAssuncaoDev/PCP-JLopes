@@ -68,6 +68,9 @@ cursor: pointer;
 
 font-size: 18px;
 
+width: 100%;
+height: 40px;
+
 }
 
 
@@ -75,7 +78,7 @@ font-size: 18px;
     border: 2px solid #17191A;
     background-color: #17191A;
     text-align: center;
-    padding: 12px;
+    /* padding: 12px; */
 
     cursor: pointer;
 
