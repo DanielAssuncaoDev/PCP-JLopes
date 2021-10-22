@@ -11,19 +11,11 @@ export default class pcpjp2021_tb_usuario extends Model {
       primaryKey: true
     },
     nm_usuario: {
-      type: DataTypes.STRING(150),
+      type: DataTypes.STRING(250),
       allowNull: true
     },
     ds_email: {
       type: DataTypes.STRING(100),
-      allowNull: true
-    },
-    ds_turma: {
-      type: DataTypes.STRING(50),
-      allowNull: true
-    },
-    nr_chamada: {
-      type: DataTypes.INTEGER,
       allowNull: true
     },
     ds_senha: {
