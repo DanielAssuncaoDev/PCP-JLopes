@@ -55,7 +55,7 @@ a{
 export default function Menu(Props) {
     return (
     <Conatainer>
-        <div className="image"> wdwefwf </div>
+        <div className="image"> </div>
         <div className="barra"></div>
         <div className="box">
             
