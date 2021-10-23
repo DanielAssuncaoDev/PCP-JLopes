@@ -1,4 +1,7 @@
 import { Listar, Container } from "./styled"
+import { useState } from "react"
+
+
 import Titulo from "../../../components/user-titulo/styled"
 import Pesquisar from "../../../components/pesquisar/styled"
 import Button from "../../../components/button-filtrar/button-filtro"
@@ -7,6 +10,19 @@ import Menu from "../../../components/menuUser/styled"
 
 
 export default function ListarProduto() {
+
+    const [Filtros, setFiltros] = useState(false);
+
+
+    function listar() {
+        setFiltros(true)  
+        onclick="select"
+    }
+
+    function remover(){
+        setFiltros(false)
+    }
+
     return (
         <Container>
              <Menu/>
@@ -16,8 +32,9 @@ export default function ListarProduto() {
                 </div> 
                 <div className="filter">
                     <div style={{marginRight: '5em'}}> <Pesquisar /> </div>
-                    <div>  <Button/> </div>
+                    <div onclick={listar}>  <Button/> </div>
                 </div>
+            
                 <div className="table">
                     
                     <thead>
@@ -52,6 +69,15 @@ export default function ListarProduto() {
                 <div className="add">
                     <button> Adicionar </button>
                 </div>
+                <div className="bandeiras">
+                     
+                     {Filtros &&
+                         <Inputs onClick={listar} />
+                     }
+                     
+                
+
+                 </div>
             </Listar>
         </Container>
        

@@ -11,7 +11,7 @@ background: rgba(12, 75, 238, 0.6);
 border-radius: 20px;
 }
 `
-export default function Comp1(Props){
+export default function Titulo(Props){
     return (
         <Conatainer>
             <div style={{marginRight: '10px'}}></div>
