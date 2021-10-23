@@ -15,7 +15,7 @@ export default class pcpjp2021_tb_adm extends Model {
       allowNull: true
     },
     ds_senha: {
-      type: DataTypes.STRING(20),
+      type: DataTypes.STRING(100),
       allowNull: true
     }
   }, {
