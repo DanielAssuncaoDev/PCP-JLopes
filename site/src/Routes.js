@@ -7,7 +7,7 @@ import MovementProduct from './pages/User/movement'
 import Replacement from './pages/User/Replacement'
 import Login from './pages/Login/'
 import Cadastrarse from './pages/Register'
-import PagEspera from './pages/Espera'
+import PagEspera from './pages/User/Espera'
 
 import InManager from './pages/Adm/inputManager';
 import LoginManager from './pages/Adm/LoginManager';
