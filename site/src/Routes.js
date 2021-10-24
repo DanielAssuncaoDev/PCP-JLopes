@@ -1,6 +1,5 @@
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 
-import Home from './pages/home';
 
 import HomeUser from './pages/User/UserHome'
 import ListProduct from './pages/User/ListProduct'
@@ -21,10 +20,10 @@ export default function Routes () {
     return(
         <BrowserRouter>
           <Switch>
-              <Route path='/Home' exact={true} component={Homee} />
+              <Route path='/Home' exact={true} component={HomeUser} />
 
 
-              <Route path='/' exact={true} component={HomeUser} />
+              <Route path='/' exact={true} component={Homee} />
               <Route path='/List' exact={true} component={ListProduct} />
               <Route path='/Register' exact={true} component={RegisterProduct} />
               <Route path='/Movement' exact={true} component={MovementProduct} />

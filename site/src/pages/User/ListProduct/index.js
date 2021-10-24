@@ -55,20 +55,20 @@ let nav = useHistory()
 
     }
 
-    // Gelado Gay
+    // Gelado Gay, e sua mae
 
     const [Filtros, setFiltros] = useState(false);
-
-
-    function listar() {
-        setFiltros(true)  
-        onclick="select"
+    
+    async function Filtrar() {
+        if(Filtros === true){
+            setFiltros(false)
+        }
+        else {
+            setFiltros(true)
+        }
     }
 
-    function remover(){
-        setFiltros(false)
-    }
-
+    
     return (
         <Container>
              <Menu/>
@@ -78,9 +78,14 @@ let nav = useHistory()
                 </div> 
                 <div className="filter">
                     <div style={{marginRight: '5em'}}> <Pesquisar /> </div>
-                    <div onclick={listar}>  <Button/> </div>
+                    <div onClick={ () => Filtrar() }>  <Button/> </div>
                 </div>
-            
+                {
+                    Filtros === true
+                    ? <Inputs />
+                    : ""
+
+                }
                 <div className="table">
                     
                     <thead>
@@ -122,15 +127,6 @@ let nav = useHistory()
                 <div className="add">
                     <button> Adicionar </button>
                 </div>
-                <div className="bandeiras">
-                     
-                     {Filtros &&
-                         <Inputs onClick={listar} />
-                     }
-                     
-                
-
-                 </div>
             </Listar>
         </Container>
        

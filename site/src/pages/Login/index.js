@@ -66,8 +66,6 @@ const [ senha, setSenha ] = useState('')
                 </div>
                 <div className="register-but"> <button > Cadastrar-se </button></div>
 
-                <Link to="./wait"> <div className="access"> <button >Acessar</button> </div> </Link>
-
                 <div className="access" onClick={ () => Login() }> <button>Acessar</button> </div>
             </div>
         </Container>
