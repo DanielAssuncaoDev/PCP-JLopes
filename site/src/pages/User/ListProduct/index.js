@@ -1,4 +1,7 @@
 import { Listar, Container } from "./styled"
+import { useState } from "react"
+
+
 import Titulo from "../../../components/user-titulo/styled"
 import Pesquisar from "../../../components/pesquisar/styled"
 import Button from "../../../components/button-filtrar/button-filtro"
@@ -13,7 +16,7 @@ import Api from '../../../service/api'
 const api = new Api()
 
 export default function ListarProduto() {
-
+    
 const [produtos, setProdutos] = useState([])
 
 const [nomeP, setNomeP] = useState('')
@@ -54,6 +57,19 @@ let nav = useHistory()
 
     }
 
+    // Gelado Gay
+
+    const [Filtros, setFiltros] = useState(false);
+
+
+    function listar() {
+        setFiltros(true)  
+        onclick="select"
+    }
+
+    function remover(){
+        setFiltros(false)
+    }
 
     return (
         <Container>
@@ -64,8 +80,9 @@ let nav = useHistory()
                 </div> 
                 <div className="filter">
                     <div style={{marginRight: '5em'}}> <Pesquisar /> </div>
-                    <div>  <Button/> </div>
+                    <div onclick={listar}>  <Button/> </div>
                 </div>
+            
                 <div className="table">
                     
                     <thead>
@@ -107,6 +124,15 @@ let nav = useHistory()
                 <div className="add">
                     <button> Adicionar </button>
                 </div>
+                <div className="bandeiras">
+                     
+                     {Filtros &&
+                         <Inputs onClick={listar} />
+                     }
+                     
+                
+
+                 </div>
             </Listar>
         </Container>
        

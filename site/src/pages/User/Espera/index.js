@@ -4,7 +4,8 @@ import { useEffect } from 'react'
 
 import Cookie from 'js-cookie'
 
-import Api from '../../service/api'
+import Api from '../../../service/api'
+import { Container } from './styled'
 const api = new Api()
 
 export default function(){
@@ -34,10 +35,15 @@ export default function(){
 
         }
     return(
-        <div>
-            <h1>
-                Aquieta o facho pangaré, quando o ADM aceitar tu entra
-            </h1>
-        </div>
+        <Container>
+            <div className="box-titles">
+                <div className="aprov"> <div> </div>   <h4>Aguardando Aprovação !</h4> </div>
+                
+                <h6>Sua solicitação de Cadastro foi enviada para o administrador. Você será redirectionado assim que sua solicitação for aprovada.</h6>
+            </div>
+            <div className="image">
+                <img src="./assets/images/banner.svg" alt=""  width="660"/>
+            </div>
+        </Container>
     )
 }

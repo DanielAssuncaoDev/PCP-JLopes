@@ -4,7 +4,6 @@ const Conatainer = styled.div `
 background-color: #17191A;
 height: 100vh;
 width: 16em;
-
 a{
     text-decoration: none;
     outline: none;
@@ -60,31 +59,31 @@ export default function Menu(Props) {
         <div className="barra"></div>
         <div className="box">
             
-            <Link to="/Register">
+            <Link to="/inputManager">
                 <div className="n1"> 
                     <div className="b1"> </div>  
-                    <div className="name">   Cadastrar Produtos </div> 
+                    <div className="name">   Geren. de Entrada </div> 
                 </div>
             </Link>
 
-            <Link to="/List">
+            <Link to="/LoginsManager">
                 <div className="n2"> 
                     <div className="b1"> </div>
-                    <div className="name"> Listar Produtos </div> 
+                    <div className="name"> Geren. de Login </div> 
                 </div>
              </Link>
 
-             <Link to="/Movement"> 
+             <Link to="/wait"> 
                 <div className="n3">
                     <div className="b1"> </div> 
-                    <div className="name">  Movimentação de Estoque  </div>  
+                    <div className="name">   Produtos Cadastrados  </div>  
                 </div>
             </Link>
 
-            <Link to="/Replacement">
+            <Link to="/ReportsManager">
                 <div className="n4">
                     <div className="b1"> </div>
-                    <div className="name"> Sugestão de Reposição  </div>
+                    <div className="name"> Relátorios  </div>
                 </div>
             </Link>
         </div>
