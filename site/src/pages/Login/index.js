@@ -65,7 +65,8 @@ const [ senha, setSenha ] = useState('')
                 </div>
                 <div className="register-but"> <button > Cadastrar-se </button></div>
                 <div className="access" onClick={ () => Login() }> <button>Acessar</button> </div>
-            </Container>
-        )
+            </div>
+        </Container>
+    )
     
 }

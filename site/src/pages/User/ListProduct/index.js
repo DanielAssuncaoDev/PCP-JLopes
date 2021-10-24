@@ -1,6 +1,4 @@
 import { Listar, Container } from "./styled"
-import { useState } from "react"
-
 
 import Titulo from "../../../components/user-titulo/styled"
 import Pesquisar from "../../../components/pesquisar/styled"
@@ -16,7 +14,7 @@ import Api from '../../../service/api'
 const api = new Api()
 
 export default function ListarProduto() {
-    
+
 const [produtos, setProdutos] = useState([])
 
 const [nomeP, setNomeP] = useState('')
