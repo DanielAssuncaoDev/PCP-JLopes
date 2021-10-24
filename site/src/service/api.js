@@ -18,7 +18,7 @@ import axios from 'axios'
             }
 
             async loginUsuario ( credenciais ){
-                let r = await api.get('/login', credenciais)
+                let r = await api.post('/login', credenciais)
                 return r.data
             }
 
@@ -27,8 +27,13 @@ import axios from 'axios'
                 return r.data
             }
 
-            async listarProduto ( idUsuario, nomeP, codigoP, categoriaP ){
-                let r = await api.get(`/produto/${idUsuario}?nomeP=${nomeP}&codigoP=${codigoP}&categoriaP=${categoriaP}&categoriaP=${categoriaP}`)
+            async listarCategorias (){
+                let r = await api.get('/categorias')
+                return r.data
+            }
+
+            async listarProdutos ( idUsuario, nomeP, codigoP, categoriaP, dtCadastro ){
+                let r = await api.get(`/produto/${idUsuario}?nomeP=${nomeP}&codigoP=${codigoP}&categoriaP=${categoriaP}&dtCadastro=${dtCadastro}`)
                 return r.data
             }
 
@@ -37,8 +42,8 @@ import axios from 'axios'
                 return r.data
             }
 
-            async alterarProduto ( idProduto ){
-                let r = await api.put(`/produto/${idProduto}`)
+            async alterarProduto ( idProduto, produto ){
+                let r = await api.put(`/produto/${idProduto}`, produto)
                 return r.data
             }
 

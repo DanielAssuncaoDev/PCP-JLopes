@@ -27,7 +27,9 @@ div {
 export default function Pesquisar() {
     return (
         <Conatainer>
-            <input type="text" placeholder="Pesquisar: por Nome ou Cod"/>
+            <input type="text" placeholder="Pesquisar: por Nome ou Cod"
+                
+            />
              <div> <img src="./assets/images/lupa.svg" alt="" /> </div>
         </Conatainer>
     )
