@@ -1,6 +1,4 @@
 import { Listar, Container } from "./styled"
-import { useState } from "react"
-
 
 import Titulo from "../../../components/user-titulo/styled"
 import Pesquisar from "../../../components/pesquisar/styled"
@@ -8,8 +6,56 @@ import Button from "../../../components/button-filtrar/button-filtro"
 import Inputs from "../../../components/button-filtrar/inputs"
 import Menu from "../../../components/menuUser/styled"
 
+import Cookie from 'js-cookie'
+import { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
+
+import Api from '../../../service/api'
+const api = new Api()
 
 export default function ListarProduto() {
+
+const [produtos, setProdutos] = useState([])
+
+const [nomeP, setNomeP] = useState('')
+const [codigoP, setCodigoP] = useState('')
+const [categoriaP, setCategoriaP] = useState('')
+const [dtCadastro, setDtCadastro] = useState('')
+
+let nav = useHistory()
+
+    const ListarProdutos = async() => {
+        let cookie = JSON.parse( Cookie.get('User') )
+
+        let p = await api.listarProdutos(cookie.id_usuario, nomeP, codigoP, categoriaP, dtCadastro )
+
+            if( p.erro !== undefined ){
+                alert(p.erro)
+            } else {
+                setProdutos(p)
+            }
+
+        // console.log(p)
+    }
+        useEffect( () => {
+            ListarProdutos()
+        }, [] )
+
+
+    const DeletarProduto = async( idProduto ) => {
+
+        let r = await api.deletarProduto(idProduto)
+
+        if( r.erro !== undefined ){
+            alert(r.erro)
+        } else {
+            alert('Produto deletado')
+            ListarProdutos()
+        }
+
+    }
+
+    // Gelado Gay
 
     const [Filtros, setFiltros] = useState(false);
 
@@ -52,18 +98,25 @@ export default function ListarProduto() {
 
                     </thead>
                     <tbody>
-                    <tr>
-                        <td> Cadeira Gamer</td>
-                        <td> Cadeira </td>
-                        <td> 690888999</td>
-                        <td>4</td>
-                        <td>5</td>
-                        <td>R$: 150,00</td>
-                        <td>R$: 450,00</td>
-                        <td> 22/22/2222</td>
-                        <td> <img src="./assets/images/editar (1) 5.svg" alt=""/></td>
-                        <td> <img src="./assets/images/Vector.svg" alt=""/></td>
-                    </tr>
+                        {
+                            produtos.map( (p) =>
+                            
+                                <tr>
+                                    <td title={p.nm_produto} > {p.nm_produto.length > 12 ? p.nm_produto.substring(0, 12) + '...' : p.nm_produto  } </td>
+                                    <td> {p.ds_categoria} </td>
+                                    <td> {p.nr_codigo}</td>
+                                    <td> {p.qtd_minima} </td>
+                                    <td> {p.qtd_atual} </td>
+                                    <td>R$:{p.vl_custo}</td>
+                                    <td>R$: {p.vl_venda}</td>
+                                    <td> {p.dt_cadastro}</td>
+                                    <td> <img onClick={ () => nav.push({ pathname: '/Register', state: p }) } src="./assets/images/editar (1) 5.svg" alt=""/></td>
+                                    <td> <img onClick={ () => DeletarProduto(p.id_produto) } src="./assets/images/Vector.svg" alt=""/></td>
+                                </tr>
+                            
+                            )
+                            
+                        }
                 </tbody>
                 </div>
                 <div className="add">

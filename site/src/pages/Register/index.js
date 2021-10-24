@@ -13,14 +13,14 @@ const [nome, setNome] = useState('')
 const [email, setEmail] = useState('')
 const [senha, setSenha] = useState('')
 
-Cookie.get('User')
 let nav = useHistory()
 
-    let CadastrarUsuario = async() => {
-        // alert('caiu função')
-        let user = await api.cadastarUsuario({nome, email, senha})
+let cookie = Cookie.get('User')
+    if(cookie !== undefined)    
+        nav.push('/')
 
-        // console.log( r )
+    let CadastrarUsuario = async() => {
+        let user = await api.cadastarUsuario({nome, email, senha})
 
             if( user.erro !== undefined )
             {

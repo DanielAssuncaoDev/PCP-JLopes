@@ -42,6 +42,17 @@ const ConRegister = styled.div`
     margin-left: 6em;
 }
 
+.AddCategoria{
+    display: flex;
+    flex-direction: column;
+
+        label {
+            align-self: flex-end;
+            font-size: .8em
+        }
+}
+
+
 .box {
     background-color: white;
     border-radius: 5px;

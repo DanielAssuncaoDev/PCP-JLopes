@@ -1,4 +1,9 @@
+import Cookies from "js-cookie"
 import styled from "styled-components"
+import { useHistory } from 'react-router-dom'
+
+import Cookie from 'js-cookie'
+
 
 const ContainerCabe = styled.div `
 background-color: white;
@@ -28,7 +33,17 @@ cursor: pointer;
 
 `  
 
+
+
 export default function CabeCalho() {
+
+    let nav = useHistory()
+
+    let cookie = Cookie.get('User')
+    // console.log(cookie)
+        if(cookie === undefined || JSON.parse(cookie).bt_ativo === false )    
+            nav.push('/login')
+
 
     return (
         <ContainerCabe>
@@ -37,7 +52,13 @@ export default function CabeCalho() {
                 <div className="names"> Olá, João Lopes </div>
             </div>
             <div className="desc">
-                <img src="./assets/images/sair.svg" alt="" />
+                <img src="./assets/images/sair.svg" alt="" 
+                        onClick={ () => {
+                                Cookies.remove('User')
+                                nav.push('/login')
+                            }
+                        }
+                />
             </div>
         </ContainerCabe>
     )

@@ -80,6 +80,7 @@ app.use(express.json())
                 }
             })
 
+            delete(r.dataValues.ds_senha)
             resp.send(r)
             
         } catch (e) {
@@ -88,7 +89,7 @@ app.use(express.json())
 
     })
 
-    app.get('/login', async (req, resp) => {
+    app.post('/login', async (req, resp) => {
 
         try {
             let user = req.body;
@@ -214,6 +215,32 @@ app.use(express.json())
 
     })
 
+    app.get('/categorias', async (req, resp) => {
+        
+        try {
+            
+            let produtos = await db.pcpjp2021_tb_produto.findAll()
+
+            let categorias = []
+
+            for ( const r of produtos ){
+                let c = r.ds_categoria[0].toUpperCase() + r.ds_categoria.substring(1)
+
+                    if( categorias.some((C) => C === c ) ) {
+                        continue
+                    }
+
+                categorias.push(c)
+            }
+
+            resp.send(categorias)
+
+        } catch (e) {
+            resp.send({erro: e.toString()})
+        }
+
+    })
+
     app.get('/produto/:idUsuario', async (req, resp) => {
 
         try {
@@ -240,7 +267,7 @@ app.use(express.json())
                             {nm_produto: req.query.nomeP},
                             {nr_codigo: req.query.codigoP},
                             {ds_categoria: req.query.categoriaP},
-                            {dt_cadastro: req.query.dtCadastro}
+                            {dt_cadastro: req.query.dtCadastro},
                         ]
                     }
                 })
@@ -282,7 +309,8 @@ app.use(express.json())
             let produtos = await db.pcpjp2021_tb_produto.findAll()
 
 
-            if( produtos.some( x => x.dataValues.nr_codigo == p.codigoP) ){
+            if( produtos.some( x => x.dataValues.nr_codigo == p.codigoP && x.dataValues.id_produto != req.params.idProduto ) ){
+                // console.log(x.dataValues.id_produto + req.params.idProduto)
                 resp.send({erro: 'O código de produto inserido já foi cadastrado'})
                 return
             }
