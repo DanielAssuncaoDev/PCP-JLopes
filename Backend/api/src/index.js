@@ -654,9 +654,9 @@ app.use(express.json())
             })
 
             resp.send(ExcluirProdutoUsu)
-            
+
         } catch (e) {
-            resp.send({erro: e.toString})
+            resp.send({erro: e.toString()})
         }
     })
 app.listen(process.env.PORT,
