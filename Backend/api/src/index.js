@@ -519,7 +519,7 @@ app.use(express.json())
                     return
                 }
 
-            delete(login.dataValues.ds_senha)
+            delete(loginAdm.dataValues.ds_senha)
             resp.send(login)
 
         } catch (e) {
@@ -593,11 +593,45 @@ app.use(express.json())
     })
 
     app.get('/produtosUsuarios', async (req, resp) => {
-        
+        try{
+            let ListarProdutos = await db.pcpjp2021_tb_produto.findAll({
+
+                include: [{
+                    model: db.pcpjp2021_tb_usuario,
+                    required: true,
+                    attributes: [{
+                        nm_usuario,
+                        ds_email
+                    }]
+                }] 
+                
+            })
+
+            resp.send(ListarProdutos)
+
+        } catch (e) {
+            resp.send({erro: e.toString()})
+        }
     })
 
     app.delete('/deletarProdutoUsuario', async (req, resp) => {
+        try{
+            let ExcluirProdutoUsu = await db.pcpjp2021_tb_produto.findAll({
 
+                include: [{
+                    model: db.pcpjp2021_tb_usuario,
+                    required: true,
+                    attributes: [{
+                        nm_usuario
+                    }]
+                }] 
+            })
+
+            resp.send(ExcluirProdutoUsu)
+            
+        } catch (e) {
+            resp.send({erro: e.toString})
+        }
     })
 app.listen(process.env.PORT,
                 x => console.log('Server up at port ' + process.env.PORT))
