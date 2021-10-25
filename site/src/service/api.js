@@ -32,8 +32,8 @@ import axios from 'axios'
                 return r.data
             }
 
-            async listarProdutos ( idUsuario, nomeP, codigoP, categoriaP, dtCadastro ){
-                let r = await api.get(`/produto/${idUsuario}?nomeP=${nomeP}&codigoP=${codigoP}&categoriaP=${categoriaP}&dtCadastro=${dtCadastro}`)
+            async listarProdutos ( idUsuario, nomeP, codigoP, categoriaP, dtCadastro, buscaAvancada ){
+                let r = await api.get(`/produto/${idUsuario}?nomeP=${nomeP}&codigoP=${codigoP}&categoriaP=${categoriaP}&dtCadastro=${dtCadastro}&buscaAvancada=${buscaAvancada}`)
                 return r.data
             }
 

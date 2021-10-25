@@ -22,7 +22,7 @@ const nav = useHistory()
 
     const ListarProdutosFalta = async() => {
         let cookie = JSON.parse( Cookie.get('User') )
-        let p = await api.listarProdutos(cookie.id_usuario, filtro, filtro, '', '')
+        let p = await api.listarProdutos(cookie.id_usuario, filtro, filtro, '', '', false)
 
         console.log(filtro)
 
