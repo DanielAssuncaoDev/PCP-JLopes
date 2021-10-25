@@ -3,6 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import crypto from 'crypto-js' 
 import require from 'sequelize'
+import sequelize from 'sequelize'
 import { any } from 'sequelize/types/lib/operators';
 // import pcpjp2021_tb_produto from './models/pcpjp2021_tb_produto.js';
 // import pcpjp2021_tb_controle_estoque from './models/pcpjp2021_tb_controle_estoque.js';
@@ -620,15 +621,15 @@ app.use(express.json())
 
     app.get('/produtosUsuarios', async (req, resp) => {
         try{
-            let ListarProdutos = await db.pcpjp2021_tb_produto.findAll({
+            const ListarProdutos = await db.pcpjp2021_tb_produto.findAll({
 
                 include: [{
                     model: db.pcpjp2021_tb_usuario,
                     required: true,
-                    attributes: [{
-                        nm_usuario,
-                        ds_email
-                    }]
+                    attributes: [
+                        ['nm_usuario', 'usuario'],
+                        ['ds_email', 'email']
+                    ]
                 }] 
                 
             })
@@ -642,14 +643,14 @@ app.use(express.json())
 
     app.delete('/deletarProdutoUsuario', async (req, resp) => {
         try{
-            let ExcluirProdutoUsu = await db.pcpjp2021_tb_produto.findAll({
+            const ExcluirProdutoUsu = await db.pcpjp2021_tb_produto.findAll({
 
                 include: [{
                     model: db.pcpjp2021_tb_usuario,
                     required: true,
-                    attributes: [{
-                        nm_usuario
-                    }]
+                    attributes: [
+                        ['nm_usuario', 'usuario']
+                    ]
                 }] 
             })
 
