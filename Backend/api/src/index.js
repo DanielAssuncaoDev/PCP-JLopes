@@ -653,7 +653,7 @@ app.use(express.json())
                 }] 
             })
 
-            resp.send(ExcluirProdutoUsu)
+            resp.sendStatus(200)
 
         } catch (e) {
             resp.send({erro: e.toString()})
