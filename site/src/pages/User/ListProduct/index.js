@@ -77,7 +77,7 @@ let nav = useHistory()
                     <Titulo nome="Listar Produtos" />
                 </div> 
                 <div className="filter">
-                    <div style={{marginRight: '5em'}}> <Pesquisar /> </div>
+                    <div style={{marginRight: '5em'}}> <Pesquisar filtro={ {} } /> </div>
                     <div onclick={listar}>  <Button/> </div>
                 </div>
             

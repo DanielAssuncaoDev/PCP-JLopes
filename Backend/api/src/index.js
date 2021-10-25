@@ -244,38 +244,55 @@ app.use(express.json())
     app.get('/produto/:idUsuario', async (req, resp) => {
 
         try {
-           
-            if(req.query.nomeP == '' && req.query.codigoP == '' && req.query.categoriaP == '' && req.query.dtCadastro == '' ){
+        
 
-                let r = await db.pcpjp2021_tb_produto.findAll({
-                    where: {
+            const { Op } = require;
+
+                let where = [
+                    {
                         id_usuario: req.params.idUsuario
                     }
-                })
+                ]
 
-                resp.send(r)
+                let filtros = [
+                    {
+                        nm_produto: {[Op.substring]:req.query.nomeP},
+                        value: req.query.nomeP
+                    },
+                    {
+                        nr_codigo:  {[Op.substring]: req.query.codigoP},
+                        value: req.query.codigoP
+                    },
+                    {
+                        ds_categoria: {[Op.substring]: req.query.categoriaP},
+                        value: req.query.categoriaP
+                    },
+                    {
+                        dt_cadastro: {[Op.substring]: req.query.dtCadastro},
+                        value: req.query.dtCadastro
+                    }   
+                ]
+            
 
-                 
-            } else {
+                filtros = filtros.filter( (c) => c.value != '' )
 
-                const { Op } = require;
+                for( let c of filtros ){
+                    delete(c.value)
+                }
 
-                let r = await db.pcpjp2021_tb_produto.findAll({
-                    where: {
-                        id_usuario: req.params.idUsuario,
-                        [Op.or]: [
-                            {nm_produto: req.query.nomeP},
-                            {nr_codigo: req.query.codigoP},
-                            {ds_categoria: req.query.categoriaP},
-                            {dt_cadastro: req.query.dtCadastro},
-                        ]
+                if (filtros.length != 0 ){
+                    filtros = {
+                        [Op.or]: filtros
                     }
+    
+                    where.push(filtros)
+                }
+  
+                let r = await db.pcpjp2021_tb_produto.findAll({
+                    where: where
                 })
 
-                resp.send(r)
-
-            }
-
+            resp.send(r)
 
         } catch (e) {
             resp.send({erro: e.toString()})
@@ -397,6 +414,7 @@ app.use(express.json())
         try {
 
             let {codigoP, qtdM, mov} = req.body
+            qtdM = Number(qtdM)
 
                     let p = await db.pcpjp2021_tb_produto.findOne({
                         where: {
