@@ -24,10 +24,13 @@ div {
     padding: .2em;
 }
 `
-export default function Pesquisar() {
+export default function Pesquisar(props) {
     return (
         <Conatainer>
-            <input type="text" placeholder="Pesquisar: por Nome ou Cod"/>
+            <input type="text" placeholder="Pesquisar: por Nome ou Cod"
+                    value={props.filtro.filtro}
+                    onChange={ (f) => props.filtro.setFiltro(f.target.value) }
+            />
              <div> <img src="./assets/images/lupa.svg" alt="" /> </div>
         </Conatainer>
     )

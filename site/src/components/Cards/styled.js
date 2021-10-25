@@ -27,7 +27,7 @@ export default function Cards(props) {
 
     return (
         <Container>
-            <div className="image">  <img src={props.logo} alt="" /></div>
+            <div className="image">  <img src={props.logo} alt=""  width="" height=""/></div>
             <div className="desc"> {props.name} </div>
         </Container>
     )
