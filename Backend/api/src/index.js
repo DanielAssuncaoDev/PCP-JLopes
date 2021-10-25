@@ -281,10 +281,14 @@ app.use(express.json())
                 }
 
                 if (filtros.length != 0 ){
-                    filtros = {
-                        [Op.or]: filtros
+
+                    if( req.query.buscaAvancada == 'false' ){
+                        filtros = {
+                            [Op.or]: filtros
+                        }
+                        console.log(filtros)
                     }
-    
+                    
                     where.push(filtros)
                 }
   
@@ -303,7 +307,29 @@ app.use(express.json())
     app.delete('/produto/:idProduto', async (req, resp) => {
 
         try {
-            
+
+            // let controleEestoque = await db.pcpjp2021_tb_controle_estoque.findAll({
+            //     where: {
+            //         id_produto: req.params.idProduto
+            //     }
+            // })
+
+            // console.log(controleEestoque)
+
+            // for ( let produto of controleEestoque ){
+            //     await db.pcpjp2021_tb_controle_estoque.destroy({
+            //         where: {
+            //             id_produto: produto.i
+            //         }
+            //     })
+            // }
+
+            await db.pcpjp2021_tb_controle_estoque.destroy({
+                where: {
+                    id_produto: req.params.idProduto
+                }
+            })
+
             let p = await db.pcpjp2021_tb_produto.destroy({
                 where: {
                     id_produto: req.params.idProduto
