@@ -5,18 +5,18 @@ const Conatainer = styled.div `
 .box-inpt {
 display: flex;
 justify-content: space-between;
-padding: 0em 45em 2em 10em;
+padding: 0em 0em 0em 0em;
 }
 
 .box-inpt1{
     display: flex;
     justify-content: space-between;
-    padding: 0em 27.2em 0em 10em;
+    padding: 0em .2em 0em 0em;
 
 }
 
 .cod > div {
-    margin-bottom: 8px;
+    margin-bottom: 0px;
 }
 
 select {
@@ -34,7 +34,7 @@ input {
 .botoes {
     display: flex;
     flex-direction: row;
-    padding-top: 1.8em;
+    padding-top: 0em;
 }
 
 button:hover {

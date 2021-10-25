@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import { Container } from "./styled"
 
 import { useState } from 'react'
@@ -45,7 +46,7 @@ const [ senha, setSenha ] = useState('')
 
     return (
         <Container>
-            {/* <Modal show={exibirModal} /> */}
+
             <div className="image">
                 <img src="./assets/images/banner.svg" alt="" />
             </div>
@@ -64,6 +65,7 @@ const [ senha, setSenha ] = useState('')
                     />
                 </div>
                 <div className="register-but"> <button > Cadastrar-se </button></div>
+
                 <div className="access" onClick={ () => Login() }> <button>Acessar</button> </div>
             </div>
         </Container>

@@ -1,5 +1,6 @@
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 
+
 import HomeUser from './pages/User/UserHome'
 import ListProduct from './pages/User/ListProduct'
 import RegisterProduct from './pages/User/RegisterProdut'
@@ -12,12 +13,17 @@ import PagEspera from './pages/User/Espera'
 import InManager from './pages/Adm/inputManager';
 import LoginManager from './pages/Adm/LoginManager';
 import Reports from './pages/Adm/Reports';
+import RegisteredProducts from './pages/Adm/RegisteredProducts';
+import Homee from './pages/home/index';
 
 export default function Routes () {
     return(
         <BrowserRouter>
           <Switch>
-              <Route path='/' exact={true} component={HomeUser} />
+              <Route path='/Home' exact={true} component={HomeUser} />
+
+
+              <Route path='/' exact={true} component={Homee} />
               <Route path='/List' exact={true} component={ListProduct} />
               <Route path='/Register' exact={true} component={RegisterProduct} />
               <Route path='/Movement' exact={true} component={MovementProduct} />
@@ -28,6 +34,7 @@ export default function Routes () {
               <Route path='/inputManager' exact={true} component={InManager} />
               <Route path='/LoginsManager' exact={true} component={LoginManager} />
               <Route path='/ReportsManager' exact={true} component={Reports} />
+              <Route path='/RegisteredProducts' exact={true} component={RegisteredProducts} />
 
 
 

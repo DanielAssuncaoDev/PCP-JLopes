@@ -73,7 +73,7 @@ export default function Menu(Props) {
                 </div>
              </Link>
 
-             <Link to="/wait"> 
+             <Link to="/RegisteredProducts"> 
                 <div className="n3">
                     <div className="b1"> </div> 
                     <div className="name">   Produtos Cadastrados  </div>  
