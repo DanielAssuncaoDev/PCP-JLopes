@@ -3,7 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import crypto from 'crypto-js' 
 import require from 'sequelize'
-//import sequelize from 'sequelize'
+import sequelize from 'sequelize'
 import { any } from 'sequelize/types/lib/operators';
 // import pcpjp2021_tb_produto from './models/pcpjp2021_tb_produto.js';
 // import pcpjp2021_tb_controle_estoque from './models/pcpjp2021_tb_controle_estoque.js';
@@ -522,7 +522,7 @@ app.use(express.json())
 
     })
 
-
+    
     app.get('/loginAdm', async (req, resp) => {
 
         try {
@@ -660,5 +660,6 @@ app.use(express.json())
             resp.send({erro: e.toString()})
         }
     })
+    
 app.listen(process.env.PORT,
                 x => console.log('Server up at port ' + process.env.PORT))
