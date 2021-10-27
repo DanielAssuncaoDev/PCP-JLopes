@@ -1,5 +1,5 @@
 import { Listar, Container } from "./styled"
-
+import Cabecalho from '../../../components/cabecalho/styled'
 import Titulo from "../../../components/user-titulo/styled"
 import Pesquisar from "../../../components/pesquisar/styled"
 import Button from "../../../components/button-filtrar/button-filtro"
@@ -72,13 +72,14 @@ let nav = useHistory()
     return (
         <Container>
              <Menu/>
-            <Listar> 
+            <Listar>
+                <Cabecalho />
                 <div className="product">
                     <Titulo nome="Listar Produtos" />
                 </div> 
                 <div className="filter">
                     <div style={{marginRight: '5em'}}> <Pesquisar /> </div>
-                    <div onClick={ () => Filtrar() }>  <Button/> </div>
+                    <div onClick={ () => Filtrar() } className="xx">  <Button/> </div>
                 </div>
                 {
                     Filtros === true
@@ -112,11 +113,11 @@ let nav = useHistory()
                                     <td> {p.nr_codigo}</td>
                                     <td> {p.qtd_minima} </td>
                                     <td> {p.qtd_atual} </td>
-                                    <td>R$:{p.vl_custo}</td>
+                                    <td>R$: {p.vl_custo}</td>
                                     <td>R$: {p.vl_venda}</td>
                                     <td> {p.dt_cadastro}</td>
-                                    <td> <img onClick={ () => nav.push({ pathname: '/Register', state: p }) } src="./assets/images/editar (1) 5.svg" alt=""/></td>
-                                    <td> <img onClick={ () => DeletarProduto(p.id_produto) } src="./assets/images/Vector.svg" alt=""/></td>
+                                    <td> <img onClick={ () => nav.push({ pathname: '/Register', state: p })  } src="./assets/images/edit_icon_128873.svg" alt="" style={{cursor: 'pointer'}}/></td>
+                                    <td> <img onClick={ () => DeletarProduto(p.id_produto) } src="./assets/images/Vector.svg" alt="" style={{cursor: 'pointer'}}/></td>
                                 </tr>
                             
                             )

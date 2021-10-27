@@ -6,7 +6,7 @@ import ListProduct from './pages/User/ListProduct'
 import RegisterProduct from './pages/User/RegisterProdut'
 import MovementProduct from './pages/User/movement'
 import Replacement from './pages/User/Replacement'
-import Login from './pages/Login/'
+import Login from './pages/Login/index'
 import Cadastrarse from './pages/Register'
 import PagEspera from './pages/User/Espera'
 
@@ -21,8 +21,6 @@ export default function Routes () {
         <BrowserRouter>
           <Switch>
               <Route path='/Home' exact={true} component={HomeUser} />
-
-
               <Route path='/' exact={true} component={Homee} />
               <Route path='/List' exact={true} component={ListProduct} />
               <Route path='/Register' exact={true} component={RegisterProduct} />
