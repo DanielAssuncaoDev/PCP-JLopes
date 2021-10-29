@@ -308,29 +308,13 @@ app.use(express.json())
 
         try {
 
-            // let controleEestoque = await db.pcpjp2021_tb_controle_estoque.findAll({
-            //     where: {
-            //         id_produto: req.params.idProduto
-            //     }
-            // })
-
-            // console.log(controleEestoque)
-
-            // for ( let produto of controleEestoque ){
-            //     await db.pcpjp2021_tb_controle_estoque.destroy({
-            //         where: {
-            //             id_produto: produto.i
-            //         }
-            //     })
-            // }
-
             await db.pcpjp2021_tb_controle_estoque.destroy({
                 where: {
                     id_produto: req.params.idProduto
                 }
             })
 
-            let p = await db.pcpjp2021_tb_produto.destroy({
+            await db.pcpjp2021_tb_produto.destroy({
                 where: {
                     id_produto: req.params.idProduto
                 }
@@ -353,7 +337,6 @@ app.use(express.json())
 
 
             if( produtos.some( x => x.dataValues.nr_codigo == p.codigoP && x.dataValues.id_produto != req.params.idProduto ) ){
-                // console.log(x.dataValues.id_produto + req.params.idProduto)
                 resp.send({erro: 'O código de produto inserido já foi cadastrado'})
                 return
             }
