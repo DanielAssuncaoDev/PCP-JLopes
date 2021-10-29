@@ -3,6 +3,8 @@ import express from 'express';
 import cors from 'cors';
 import crypto from 'crypto-js' 
 import require from 'sequelize'
+import sequelize from 'sequelize'
+import { any } from 'sequelize/types/lib/operators';
 // import pcpjp2021_tb_produto from './models/pcpjp2021_tb_produto.js';
 // import pcpjp2021_tb_controle_estoque from './models/pcpjp2021_tb_controle_estoque.js';
 // import pcpjp2021_tb_usuario from './models/pcpjp2021_tb_usuario.js';
@@ -503,22 +505,53 @@ app.use(express.json())
 
     })
 
+    
+    app.get('/loginAdm', async (req, resp) => {
+
+        try {
+            let adm = req.body;
+
+            if( adm.codigo == '' || adm.senha == '' ){
+                resp.send({erro: 'Todos os campos devem estar preenchidos'})
+                return
+            }
+
+            let loginAdm = await db.pcpjp2021_tb_adm.findOne({
+                where: {
+                    ds_codigo: adm.codigo,
+                    ds_senha: crypto.SHA256(adm.senha).toString(crypto.enc.Base64)
+                }
+            })
 
 
+                if( loginAdm == null ){
+                    resp.send({erro: 'Cadastro não foi encontrado'})
+                    return
+                }
 
+            delete(loginAdm.dataValues.ds_senha)
+            resp.send(login)
 
+        } catch (e) {
+            resp.send({erro: e.toString()})
+        }
+
+    })
+ 
+
+    app.post('/aprovarCad', async (req, resp) => {
+
+    })
     
 
     app.get('/usuarioscadastrados', async (req, resp) => {
         try { 
-             let usuarios = await db.pcpjp2021_tb_usuario.findAll ({
+             let usuarios = await db.pcpjp2021_tb_usuario.findAll ({          
                 where: { 
                     bt_ativo: true,
-                    nm_usuario: " ",
-                    ds_email: " ",
-                    ds_turma: " ",
-                    nr_chamada: " "
-                }
+                    nm_usuario: any,
+                    ds_email: any
+               }
             })
         resp.send(usuarios)
 
@@ -526,6 +559,7 @@ app.use(express.json())
             resp.send({erro: e.toString()})
         }
     })
+
 
     app.delete('/usuarioscadastrados/:idUsuario', async (req, resp) =>{
         try{
@@ -541,6 +575,7 @@ app.use(express.json())
             resp.send({erro: e.toString()})
         }
     })
+
 
     app.get('/controleEstoque', async (req, resp) => {
         try { 
@@ -567,5 +602,47 @@ app.use(express.json())
         }
     })
 
+    app.get('/produtosUsuarios', async (req, resp) => {
+        try{
+            const ListarProdutos = await db.pcpjp2021_tb_produto.findAll({
+
+                include: [{
+                    model: db.pcpjp2021_tb_usuario,
+                    required: true,
+                    attributes: [
+                        ['nm_usuario', 'usuario'],
+                        ['ds_email', 'email']
+                    ]
+                }] 
+                
+            })
+
+            resp.send(ListarProdutos)
+
+        } catch (e) {
+            resp.send({erro: e.toString()})
+        }
+    })
+
+    app.delete('/deletarProdutoUsuario', async (req, resp) => {
+        try{
+            const ExcluirProdutoUsu = await db.pcpjp2021_tb_produto.findAll({
+
+                include: [{
+                    model: db.pcpjp2021_tb_usuario,
+                    required: true,
+                    attributes: [
+                        ['nm_usuario', 'usuario']
+                    ]
+                }] 
+            })
+
+            resp.sendStatus(200)
+
+        } catch (e) {
+            resp.send({erro: e.toString()})
+        }
+    })
+    
 app.listen(process.env.PORT,
                 x => console.log('Server up at port ' + process.env.PORT))
