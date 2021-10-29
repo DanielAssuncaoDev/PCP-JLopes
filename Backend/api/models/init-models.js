@@ -51,10 +51,6 @@ export default function initModels(sequelize) {
   infoc_tcc_produto.hasMany(infoc_tcc_venda_item, { as: "infoc_tcc_venda_items", foreignKey: "id_produto"});
   infoc_tcc_venda_item.belongsTo(infoc_tcc_venda, { as: "id_venda_infoc_tcc_venda", foreignKey: "id_venda"});
   infoc_tcc_venda.hasMany(infoc_tcc_venda_item, { as: "infoc_tcc_venda_items", foreignKey: "id_venda"});
-  pcpjp2021_tb_controle_estoque.belongsTo(pcpjp2021_tb_produto, { as: "id_produto_pcpjp2021_tb_produto", foreignKey: "id_produto"});
-  pcpjp2021_tb_produto.hasMany(pcpjp2021_tb_controle_estoque, { as: "pcpjp2021_tb_controle_estoques", foreignKey: "id_produto"});
-  pcpjp2021_tb_controle_estoque.belongsTo(pcpjp2021_tb_usuario, { as: "id_usuario_pcpjp2021_tb_usuario", foreignKey: "id_usuario"});
-  pcpjp2021_tb_usuario.hasMany(pcpjp2021_tb_controle_estoque, { as: "pcpjp2021_tb_controle_estoques", foreignKey: "id_usuario"});
   pcpjp2021_tb_produto.belongsTo(pcpjp2021_tb_usuario, { as: "id_usuario_pcpjp2021_tb_usuario", foreignKey: "id_usuario"});
   pcpjp2021_tb_usuario.hasMany(pcpjp2021_tb_produto, { as: "pcpjp2021_tb_produtos", foreignKey: "id_usuario"});
 
