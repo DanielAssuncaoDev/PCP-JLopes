@@ -12,19 +12,11 @@ export default class pcpjp2021_tb_controle_estoque extends Model {
     },
     id_usuario: {
       type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'pcpjp2021_tb_usuario',
-        key: 'id_usuario'
-      }
+      allowNull: true
     },
     id_produto: {
       type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'pcpjp2021_tb_produto',
-        key: 'id_produto'
-      }
+      allowNull: true
     },
     qtd_produtos: {
       type: DataTypes.INTEGER,

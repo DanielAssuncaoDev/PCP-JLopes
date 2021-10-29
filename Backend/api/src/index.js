@@ -3,8 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import crypto from 'crypto-js' 
 import require from 'sequelize'
-import sequelize from 'sequelize'
-import { any } from 'sequelize/types/lib/operators';
+//import { any } from 'sequelize/types/lib/operators';
 // import pcpjp2021_tb_produto from './models/pcpjp2021_tb_produto.js';
 // import pcpjp2021_tb_controle_estoque from './models/pcpjp2021_tb_controle_estoque.js';
 // import pcpjp2021_tb_usuario from './models/pcpjp2021_tb_usuario.js';
@@ -522,53 +521,24 @@ app.use(express.json())
 
     })
 
-    
-    app.get('/loginAdm', async (req, resp) => {
+   
+    //permite que o adm faça login em uma conta já cadastrada
+   app.get('/loginAdm', async (req, resp) => {
+       
+   })
 
-        try {
-            let adm = req.body;
-
-            if( adm.codigo == '' || adm.senha == '' ){
-                resp.send({erro: 'Todos os campos devem estar preenchidos'})
-                return
-            }
-
-            let loginAdm = await db.pcpjp2021_tb_adm.findOne({
-                where: {
-                    ds_codigo: adm.codigo,
-                    ds_senha: crypto.SHA256(adm.senha).toString(crypto.enc.Base64)
-                }
-            })
-
-
-                if( loginAdm == null ){
-                    resp.send({erro: 'Cadastro não foi encontrado'})
-                    return
-                }
-
-            delete(loginAdm.dataValues.ds_senha)
-            resp.send(login)
-
-        } catch (e) {
-            resp.send({erro: e.toString()})
-        }
-
-    })
- 
-
-    app.post('/aprovarCad', async (req, resp) => {
+   //permite que o adm aprove a entrada de pessoas em seu sistema, através do cadastro de suas contas
+   app.post('/aprovarCad', async (req, resp) => {
 
     })
     
-
+    //lista usuarios já aprovados e caadastrados
     app.get('/usuarioscadastrados', async (req, resp) => {
         try { 
              let usuarios = await db.pcpjp2021_tb_usuario.findAll ({          
                 where: { 
-                    bt_ativo: true,
-                    nm_usuario: any,
-                    ds_email: any
-               }
+                    bt_ativo: true
+                }
             })
         resp.send(usuarios)
 
@@ -577,7 +547,7 @@ app.use(express.json())
         }
     })
 
-
+    //exclui o cadastro dos usuarios
     app.delete('/usuarioscadastrados/:idUsuario', async (req, resp) =>{
         try{
             let deletarUsu = await db.pcpjp2021_tb_usuario.destroy({
@@ -593,43 +563,47 @@ app.use(express.json())
         }
     })
 
-
+    //permite que o adm veja o controle de estoque dos usuarios
     app.get('/controleEstoque', async (req, resp) => {
         try { 
             let controleEsto = await db.pcpjp2021_tb_controle_estoque.findAll({
-                // where: {
-
-                //},
-                // include: ['id_produto_pcpjp2021_tb_produto']
-
-                include: [{
-                    model: 'id_produto_pcpjp2021_tb_produto',
-                        include: {
-                            model: 'pcpjp2021_tb_usuario',
-                            required: true,
-                            right: true
-                        }
-                }]
-            })
-            
-            resp.send(controleEsto)
+                include: [
+                    {
+                        model: db.pcpjp2021_tb_usuario,
+                        as: "id_usuario_pcpjp2021_tb_usuario",
+                        required: true,
+                        attributes: 
+                        ['nm_usuario', 'usuario']
+                        ['ds_email', 'email']    
+                    },
+                    {
+                    model: db.pcpjp2021_tb_produto,
+                    as: "id_produto_pcpjp2021_tb_produto",
+                    required: true,
+                    attributes: 
+                    ['nm_produto', 'produto']
+                    ['nr_codigo', 'codigoP']
+                   }
+            ]
+        })
+                        resp.send(controleEsto)
 
         } catch (e) {
             resp.send({erro: e.toString()})
         }
     })
 
+    //lista os produtos cadastrados dos usuarios
     app.get('/produtosUsuarios', async (req, resp) => {
         try{
-            const ListarProdutos = await db.pcpjp2021_tb_produto.findAll({
-
+            let ListarProdutos = await db.pcpjp2021_tb_produto.findAll({
                 include: [{
                     model: db.pcpjp2021_tb_usuario,
+                    as: 'id_usuario_pcpjp2021_tb_usuario',
                     required: true,
-                    attributes: [
-                        ['nm_usuario', 'usuario'],
-                        ['ds_email', 'email']
-                    ]
+                    attributes: 
+                    ['nm_usuario', 'usuario']
+                    ['ds_email', 'email']
                 }] 
                 
             })
@@ -641,17 +615,13 @@ app.use(express.json())
         }
     })
 
-    app.delete('/deletarProdutoUsuario', async (req, resp) => {
+    //permite que o adm excluir produtos dos usuarios 
+    app.delete('/DeletarProdutoUsuario/:id_produto', async (req, resp) => {
         try{
-            const ExcluirProdutoUsu = await db.pcpjp2021_tb_produto.findAll({
-
-                include: [{
-                    model: db.pcpjp2021_tb_usuario,
-                    required: true,
-                    attributes: [
-                        ['nm_usuario', 'usuario']
-                    ]
-                }] 
+            const ExcluirProdutoUsu = await db.pcpjp2021_tb_produto.destroy({
+                where: {
+                    id_produto: req.params.id_produto
+                }
             })
 
             resp.sendStatus(200)
