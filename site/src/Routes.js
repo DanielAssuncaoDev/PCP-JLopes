@@ -14,16 +14,16 @@ import InManager from './pages/Adm/inputManager';
 import LoginManager from './pages/Adm/LoginManager';
 import Reports from './pages/Adm/Reports';
 import RegisteredProducts from './pages/Adm/RegisteredProducts';
-import Homee from './pages/home/index';
+import Home from './pages/home/index';
 
 export default function Routes () {
     return(
         <BrowserRouter>
           <Switch>
-              <Route path='/Home' exact={true} component={HomeUser} />
+              <Route path='/home' exact={true} component={HomeUser} />
 
 
-              <Route path='/' exact={true} component={Homee} />
+              <Route path='/' exact={true} component={Home} />
               <Route path='/List' exact={true} component={ListProduct} />
               <Route path='/Register' exact={true} component={RegisterProduct} />
               <Route path='/Movement' exact={true} component={MovementProduct} />

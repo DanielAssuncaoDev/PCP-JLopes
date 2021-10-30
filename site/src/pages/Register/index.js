@@ -17,7 +17,7 @@ let nav = useHistory()
 
 let cookie = Cookie.get('User')
     if(cookie !== undefined)    
-        nav.push('/')
+        nav.push('/home')
 
     let CadastrarUsuario = async() => {
         let user = await api.cadastarUsuario({nome, email, senha})

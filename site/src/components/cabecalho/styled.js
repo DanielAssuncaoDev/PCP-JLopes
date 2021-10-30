@@ -39,11 +39,9 @@ export default function CabeCalho() {
 
     let nav = useHistory()
 
-    let cookie = Cookie.get('User')
-    // console.log(cookie)
-        if(cookie === undefined || JSON.parse(cookie).bt_ativo === false )    
-            nav.push('/login')
-
+    let cookieUser = Cookie.get('User')
+    let cookieAdm = Cookie.get('Adm')
+    
 
     return (
         <ContainerCabe>
@@ -54,8 +52,13 @@ export default function CabeCalho() {
             <div className="desc">
                 <img src="./assets/images/sair.svg" alt="" 
                         onClick={ () => {
-                                Cookies.remove('User')
+                                    if( cookieUser !== undefined ){
+                                        Cookie.remove('User')
+                                    } else {
+                                        Cookie.remove('Adm')
+                                    }
                                 nav.push('/login')
+
                             }
                         }
                 />

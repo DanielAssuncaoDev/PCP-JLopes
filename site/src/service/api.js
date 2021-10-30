@@ -52,4 +52,19 @@ import axios from 'axios'
                 return r.data
             }
 
+            async usersNaoCadastrados () {
+                let r = await api.get('/usersNaoCadastrados')
+                return r.data
+            }
+
+            async aprovarUser ( idUser ){
+                let r = await api.put(`aprovarCad/${idUser}`)
+                return r.data
+            }
+
+            async loginAdm ( credenciais ){
+                let r = await api.post('loginAdm', credenciais)
+                return r.data
+            }
+
         }

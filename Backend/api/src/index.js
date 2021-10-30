@@ -3,14 +3,10 @@ import express from 'express';
 import cors from 'cors';
 import crypto from 'crypto-js' 
 import require from 'sequelize'
-//import { any } from 'sequelize/types/lib/operators';
-// import pcpjp2021_tb_produto from './models/pcpjp2021_tb_produto.js';
-// import pcpjp2021_tb_controle_estoque from './models/pcpjp2021_tb_controle_estoque.js';
-// import pcpjp2021_tb_usuario from './models/pcpjp2021_tb_usuario.js';
 
-const app = new express()
-app.use(cors())
-app.use(express.json())
+    const app = new express()
+    app.use(cors())
+    app.use(express.json())
 
 
 
@@ -506,15 +502,64 @@ app.use(express.json())
 
    
     //permite que o adm faça login em uma conta já cadastrada
-   app.get('/loginAdm', async (req, resp) => {
-       
+   app.post('/loginAdm', async (req, resp) => {
+       try {
+            let { email, senha } = req.body 
+
+            let adm = await db.pcpjp2021_tb_adm.findOne({
+                where: {
+                    ds_email: email,
+                    ds_senha: senha
+                }
+            })
+
+                if( adm == null ){
+                    resp.send({erro: 'Credenciais inválidas!'})
+                    return
+                }
+
+            resp.send(adm)
+
+       } catch (e) {
+           resp.send({erro: e.toString()})
+       }
    })
 
-   //permite que o adm aprove a entrada de pessoas em seu sistema, através do cadastro de suas contas
-   app.post('/aprovarCad', async (req, resp) => {
+//    lista os usuarios não ativos/aceitos no sistema
+   app.get('/usersNaoCadastrados', async (req, resp) => {
+       try {
+           let users = await db.pcpjp2021_tb_usuario.findAll({
+               where: {
+                   bt_ativo: false
+               }
+           })
 
+           resp.send(users)
+           
+       } catch (e) {
+           resp.send({erro: e.toString()})
+       }
     })
-    
+
+   //permite que o adm aprove a entrada de pessoas em seu sistema, através do cadastro de suas contas
+   app.put('/aprovarCad/:idUser', async (req, resp) => {
+        try {
+            
+            let user = await db.pcpjp2021_tb_usuario.update({
+                    bt_ativo: true
+                },{
+                where: {
+                    id_usuario: req.params.idUser
+                }}
+            )
+
+            resp.sendStatus(200)
+            
+        } catch (e) {
+            resp.send({erro: e.toString()})
+        }
+    })
+
     //lista usuarios já aprovados e caadastrados
     app.get('/usuarioscadastrados', async (req, resp) => {
         try { 
@@ -530,6 +575,7 @@ app.use(express.json())
         }
     })
 
+    
     //exclui o cadastro dos usuarios
     app.delete('/usuarioscadastrados/:idUsuario', async (req, resp) =>{
         try{
@@ -560,12 +606,12 @@ app.use(express.json())
                         ['ds_email', 'email']    
                     },
                     {
-                    model: db.pcpjp2021_tb_produto,
-                    as: "id_produto_pcpjp2021_tb_produto",
-                    required: true,
-                    attributes: 
-                    ['nm_produto', 'produto']
-                    ['nr_codigo', 'codigoP']
+                        model: db.pcpjp2021_tb_produto,
+                        as: "id_produto_pcpjp2021_tb_produto",
+                        required: true,
+                        attributes: 
+                        ['nm_produto', 'produto']
+                        ['nr_codigo', 'codigoP']
                    }
             ]
         })
