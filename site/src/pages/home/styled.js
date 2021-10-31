@@ -3,6 +3,10 @@ import styled from "styled-components";
 const Container = styled.div `
 
 
+.image1 img {
+    background-attachment: fixed;
+}
+
 .track1 {
     text-align: center;
 }

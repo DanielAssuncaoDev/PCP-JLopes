@@ -3,6 +3,8 @@ import express from 'express';
 import cors from 'cors';
 import crypto from 'crypto-js' 
 import require from 'sequelize'
+import sequelize from 'sequelize'
+import { any } from 'sequelize/types/lib/operators';
 // import pcpjp2021_tb_produto from './models/pcpjp2021_tb_produto.js';
 // import pcpjp2021_tb_controle_estoque from './models/pcpjp2021_tb_controle_estoque.js';
 // import pcpjp2021_tb_usuario from './models/pcpjp2021_tb_usuario.js';
@@ -244,38 +246,59 @@ app.use(express.json())
     app.get('/produto/:idUsuario', async (req, resp) => {
 
         try {
-           
-            if(req.query.nomeP == '' && req.query.codigoP == '' && req.query.categoriaP == '' && req.query.dtCadastro == '' ){
+        
 
-                let r = await db.pcpjp2021_tb_produto.findAll({
-                    where: {
+            const { Op } = require;
+
+                let where = [
+                    {
                         id_usuario: req.params.idUsuario
                     }
-                })
+                ]
 
-                resp.send(r)
+                let filtros = [
+                    {
+                        nm_produto: {[Op.substring]:req.query.nomeP},
+                        value: req.query.nomeP
+                    },
+                    {
+                        nr_codigo:  {[Op.substring]: req.query.codigoP},
+                        value: req.query.codigoP
+                    },
+                    {
+                        ds_categoria: {[Op.substring]: req.query.categoriaP},
+                        value: req.query.categoriaP
+                    },
+                    {
+                        dt_cadastro: {[Op.substring]: req.query.dtCadastro},
+                        value: req.query.dtCadastro
+                    }   
+                ]
+            
 
-                 
-            } else {
+                filtros = filtros.filter( (c) => c.value != '' )
 
-                const { Op } = require;
+                for( let c of filtros ){
+                    delete(c.value)
+                }
 
-                let r = await db.pcpjp2021_tb_produto.findAll({
-                    where: {
-                        id_usuario: req.params.idUsuario,
-                        [Op.or]: [
-                            {nm_produto: req.query.nomeP},
-                            {nr_codigo: req.query.codigoP},
-                            {ds_categoria: req.query.categoriaP},
-                            {dt_cadastro: req.query.dtCadastro},
-                        ]
+                if (filtros.length != 0 ){
+
+                    if( req.query.buscaAvancada == 'false' ){
+                        filtros = {
+                            [Op.or]: filtros
+                        }
+                        console.log(filtros)
                     }
+                    
+                    where.push(filtros)
+                }
+  
+                let r = await db.pcpjp2021_tb_produto.findAll({
+                    where: where
                 })
 
-                resp.send(r)
-
-            }
-
+            resp.send(r)
 
         } catch (e) {
             resp.send({erro: e.toString()})
@@ -286,7 +309,29 @@ app.use(express.json())
     app.delete('/produto/:idProduto', async (req, resp) => {
 
         try {
-            
+
+            // let controleEestoque = await db.pcpjp2021_tb_controle_estoque.findAll({
+            //     where: {
+            //         id_produto: req.params.idProduto
+            //     }
+            // })
+
+            // console.log(controleEestoque)
+
+            // for ( let produto of controleEestoque ){
+            //     await db.pcpjp2021_tb_controle_estoque.destroy({
+            //         where: {
+            //             id_produto: produto.i
+            //         }
+            //     })
+            // }
+
+            await db.pcpjp2021_tb_controle_estoque.destroy({
+                where: {
+                    id_produto: req.params.idProduto
+                }
+            })
+
             let p = await db.pcpjp2021_tb_produto.destroy({
                 where: {
                     id_produto: req.params.idProduto
@@ -397,6 +442,7 @@ app.use(express.json())
         try {
 
             let {codigoP, qtdM, mov} = req.body
+            qtdM = Number(qtdM)
 
                     let p = await db.pcpjp2021_tb_produto.findOne({
                         where: {
@@ -476,22 +522,53 @@ app.use(express.json())
 
     })
 
+    
+    app.get('/loginAdm', async (req, resp) => {
+
+        try {
+            let adm = req.body;
+
+            if( adm.codigo == '' || adm.senha == '' ){
+                resp.send({erro: 'Todos os campos devem estar preenchidos'})
+                return
+            }
+
+            let loginAdm = await db.pcpjp2021_tb_adm.findOne({
+                where: {
+                    ds_codigo: adm.codigo,
+                    ds_senha: crypto.SHA256(adm.senha).toString(crypto.enc.Base64)
+                }
+            })
 
 
+                if( loginAdm == null ){
+                    resp.send({erro: 'Cadastro não foi encontrado'})
+                    return
+                }
 
+            delete(loginAdm.dataValues.ds_senha)
+            resp.send(login)
 
+        } catch (e) {
+            resp.send({erro: e.toString()})
+        }
+
+    })
+ 
+
+    app.post('/aprovarCad', async (req, resp) => {
+
+    })
     
 
     app.get('/usuarioscadastrados', async (req, resp) => {
         try { 
-             let usuarios = await db.pcpjp2021_tb_usuario.findAll ({
+             let usuarios = await db.pcpjp2021_tb_usuario.findAll ({          
                 where: { 
                     bt_ativo: true,
-                    nm_usuario: " ",
-                    ds_email: " ",
-                    ds_turma: " ",
-                    nr_chamada: " "
-                }
+                    nm_usuario: any,
+                    ds_email: any
+               }
             })
         resp.send(usuarios)
 
@@ -499,6 +576,7 @@ app.use(express.json())
             resp.send({erro: e.toString()})
         }
     })
+
 
     app.delete('/usuarioscadastrados/:idUsuario', async (req, resp) =>{
         try{
@@ -514,6 +592,7 @@ app.use(express.json())
             resp.send({erro: e.toString()})
         }
     })
+
 
     app.get('/controleEstoque', async (req, resp) => {
         try { 
@@ -540,5 +619,47 @@ app.use(express.json())
         }
     })
 
+    app.get('/produtosUsuarios', async (req, resp) => {
+        try{
+            const ListarProdutos = await db.pcpjp2021_tb_produto.findAll({
+
+                include: [{
+                    model: db.pcpjp2021_tb_usuario,
+                    required: true,
+                    attributes: [
+                        ['nm_usuario', 'usuario'],
+                        ['ds_email', 'email']
+                    ]
+                }] 
+                
+            })
+
+            resp.send(ListarProdutos)
+
+        } catch (e) {
+            resp.send({erro: e.toString()})
+        }
+    })
+
+    app.delete('/deletarProdutoUsuario', async (req, resp) => {
+        try{
+            const ExcluirProdutoUsu = await db.pcpjp2021_tb_produto.findAll({
+
+                include: [{
+                    model: db.pcpjp2021_tb_usuario,
+                    required: true,
+                    attributes: [
+                        ['nm_usuario', 'usuario']
+                    ]
+                }] 
+            })
+
+            resp.sendStatus(200)
+
+        } catch (e) {
+            resp.send({erro: e.toString()})
+        }
+    })
+    
 app.listen(process.env.PORT,
                 x => console.log('Server up at port ' + process.env.PORT))

@@ -8,7 +8,7 @@ import Sequelize from 'sequelize';
         'nsf@2021', {
             host: 'my01.winhost.com',
             dialect: 'mysql',
-            logging: false
+            logging: console.log
         }
     )
 
