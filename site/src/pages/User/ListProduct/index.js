@@ -22,24 +22,33 @@ const [codigoP, setCodigoP] = useState('')
 const [categoriaP, setCategoriaP] = useState('')
 const [dtCadastro, setDtCadastro] = useState('')
 
+const [filtro, setFiltro] = useState('')
+const [FiltrosA, setFiltrosA] = useState(false);
+
+
 let nav = useHistory()
 
     const ListarProdutos = async() => {
         let cookie = JSON.parse( Cookie.get('User') )
 
-        let p = await api.listarProdutos(cookie.id_usuario, nomeP, codigoP, categoriaP, dtCadastro )
+        let p = null
+
+        if(FiltrosA === false){
+            p = await api.listarProdutos(cookie.id_usuario, filtro, filtro, '', '', 'false')
+            console.log(filtro)
+        } else {
+            p = await api.listarProdutos(cookie.id_usuario, nomeP, codigoP, categoriaP, dtCadastro, 'true' )
+        }
 
             if( p.erro !== undefined ){
                 alert(p.erro)
             } else {
                 setProdutos(p)
             }
-
-        // console.log(p)
     }
         useEffect( () => {
             ListarProdutos()
-        }, [] )
+        }, [FiltrosA, filtro, nomeP, codigoP, categoriaP, dtCadastro] )
 
 
     const DeletarProduto = async( idProduto ) => {
@@ -55,16 +64,13 @@ let nav = useHistory()
 
     }
 
-    // Gelado Gay, e sua mae
-
-    const [Filtros, setFiltros] = useState(false);
     
     async function Filtrar() {
-        if(Filtros === true){
-            setFiltros(false)
+        if(FiltrosA === true){
+            setFiltrosA(false)
         }
         else {
-            setFiltros(true)
+            setFiltrosA(true)
         }
     }
 
@@ -80,10 +86,11 @@ let nav = useHistory()
                 <div className="filter">
                     <div style={{marginRight: '5em'}}> <Pesquisar /> </div>
                     <div onClick={ () => Filtrar() } className="xx">  <Button/> </div>
+                    <div style={{marginRight: '5em'}}> <Pesquisar filtro={{filtro, setFiltro}} /> </div>
                 </div>
                 {
-                    Filtros === true
-                    ? <Inputs />
+                    FiltrosA === true
+                    ? <Inputs filtros={ {nomeP, setNomeP, codigoP, setCodigoP, categoriaP, setCategoriaP, dtCadastro, setDtCadastro } } />
                     : ""
 
                 }
@@ -126,7 +133,7 @@ let nav = useHistory()
                 </tbody>
                 </div>
                 <div className="add">
-                    <button> Adicionar </button>
+                    <button> Adicionar Produto</button>
                 </div>
             </Listar>
         </Container>

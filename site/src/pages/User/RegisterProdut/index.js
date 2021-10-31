@@ -98,7 +98,6 @@ let cookie = Cookie.get('User')
                 }
 
         } else {
-            alert('Caiu')
             let produto = await api.cadastarProduto( Inserirproduto, user.id_usuario )
             
                 if( produto.erro !== undefined ){

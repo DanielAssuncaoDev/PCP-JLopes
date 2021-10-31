@@ -6,6 +6,7 @@ import Pesquisar from "../../../components/pesquisar/styled"
 import Menu from '../../../components/menuUser/styled'
 
 import { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import Cookie from 'js-cookie'
 
 import Api from '../../../service/api'
@@ -15,9 +16,15 @@ export default function Repor() {
 
 const [ produtos, setProdutos ] = useState([])
 
+const [filtro, setFiltro] = useState('')
+
+const nav = useHistory()
+
     const ListarProdutosFalta = async() => {
         let cookie = JSON.parse( Cookie.get('User') )
-        let p = await api.listarProdutos(cookie.id_usuario, '', '', '', '')
+        let p = await api.listarProdutos(cookie.id_usuario, filtro, filtro, '', '', false)
+
+        console.log(filtro)
 
         let pFalta = p.filter( (x) => x.qtd_minima > x.qtd_atual )
         setProdutos(pFalta)
@@ -25,7 +32,7 @@ const [ produtos, setProdutos ] = useState([])
     }
         useEffect( () => {
             ListarProdutosFalta()
-        }, [] )
+        }, [filtro] )
 
 
     return (
@@ -34,7 +41,7 @@ const [ produtos, setProdutos ] = useState([])
             <ContRepor>
                 <Cabecalho />
                  <div className="til"><Titulo nome="Sugestão de Reposição"/> </div>
-                 <div className="pes"><Pesquisar /> </div>
+                 <div className="pes"><Pesquisar filtro={{filtro, setFiltro}} /> </div>
                 <div className="table">
                     <thead>
                             <th> Nome </th>
@@ -53,11 +60,11 @@ const [ produtos, setProdutos ] = useState([])
                                     <tr>
                                         <td> {p.nm_produto} </td>
                                         <td> {p.nr_codigo} </td>
-                                        <td style={{color: 'red'}}> {p.qtd_minima} </td>
-                                        <td> {p.qtd_atual} </td>
+                                        <td> {p.qtd_minima} </td>
+                                        <td style={{color: 'red'}} > {p.qtd_atual} </td>
                                         <td>R$: {p.vl_custo}</td>
                                         <td>R$: {p.vl_venda}</td>
-                                        <td> <img src="./assets/images/reset.svg" alt=""/></td>
+                                        <td> <img  onClick={ () => nav.push( {pathname: '/Movement', state: p} )} src="./assets/images/reset.svg" alt=""/></td>
                                     </tr>
                                 )
                         }
