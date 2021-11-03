@@ -27,32 +27,10 @@ import require from 'sequelize'
                 return
             }
 
-            // if(cd.email.substring((cd.email.indexOf('@')) ) != '@acaonsfatima.org.br' ) {
-            //     resp.send({erro: 'Deve ser cadastrado um E-mail da instituição'})
-            //     return
-            // }
-
-
-            // if(isNaN(cd.chamada)){
-            //     resp.send({erro: 'A chamada deve ser um número'})
-            //     return
-            // }
-
-            // if((cd.chamada) <= 0 ){
-            //     resp.send({erro: 'A chamada deve ser maior que zero'})
-            // }
-
-            // if(tbProduto.some( x => x.dataValues.ds_turma == cd.turma && x.dataValues.nr_chamada == cd.chamada )){
-            //     resp.send({erro: "O número de chamada " + cd.chamada + " ja foi cadastrado na turma " + cd.turma })
-            //     return
-            // }
-
 
                 let inserirCadastro = {
                     nm_usuario: cd.nome,
                     ds_email: cd.email,
-                    // ds_turma: cd.turma,
-                    // nr_chamada: cd.chamada,
                     ds_senha: crypto.SHA256(cd.senha).toString(crypto.enc.Base64),
                     bt_ativo: false
                 }
@@ -91,11 +69,7 @@ import require from 'sequelize'
         try {
             let user = req.body;
 
-            if( user.email == '' || user.senha == '' ){
-                resp.send({erro: 'Todos os campos devem estar preenchidos'})
-                return
-            }
-
+            
             let login = await db.pcpjp2021_tb_usuario.findOne({
                 where: {
                     ds_email: user.email,
@@ -283,7 +257,7 @@ import require from 'sequelize'
                         filtros = {
                             [Op.or]: filtros
                         }
-                        console.log(filtros)
+                        // console.log(filtros)
                     }
                     
                     where.push(filtros)
@@ -415,7 +389,7 @@ import require from 'sequelize'
 
     })
 
-    app.put('/controleestoque', async (req, resp) =>  {
+    app.put('/controleestoque/:idUsuario', async (req, resp) =>  {
 
         try {
 
@@ -483,6 +457,7 @@ import require from 'sequelize'
 
                 let inserirControleEstoque =  {
                     id_produto: p.id_produto,
+                    id_usuario: req.params.idUsuario,
                     qtd_produtos: qtdM,
                     ds_movimentacao: mov,
                     vl_lucro: lucroM,
@@ -528,11 +503,41 @@ import require from 'sequelize'
 //    lista os usuarios não ativos/aceitos no sistema
    app.get('/usersNaoCadastrados', async (req, resp) => {
        try {
-           let users = await db.pcpjp2021_tb_usuario.findAll({
-               where: {
-                   bt_ativo: false
-               }
-           })
+            let { nome, email } = req.query
+
+            let {Op} = require
+
+                let filtro = [
+                    {nm_usuario: {[ Op.substring ]: nome}, value: nome },
+                    {ds_email: { [ Op.substring ]: email}, value: email }
+                ]
+
+                filtro = filtro.filter( (f) => f.value !== '' )
+
+                for( let c of filtro ){
+                    delete(c.value)
+                }
+
+            let users = null
+
+                if( filtro.length != 0 ){
+                    
+                    users = await db.pcpjp2021_tb_usuario.findAll({
+                        where: {
+                            bt_ativo: false,
+                            [Op.or]: filtro
+                        }
+                    })
+
+                } else {
+
+                    users = await db.pcpjp2021_tb_usuario.findAll({
+                        where: {
+                            bt_ativo: false
+                        }
+                    })
+                       
+                }
 
            resp.send(users)
            
@@ -541,17 +546,30 @@ import require from 'sequelize'
        }
     })
 
+
    //permite que o adm aprove a entrada de pessoas em seu sistema, através do cadastro de suas contas
    app.put('/aprovarCad/:idUser', async (req, resp) => {
         try {
             
-            let user = await db.pcpjp2021_tb_usuario.update({
-                    bt_ativo: true
-                },{
-                where: {
-                    id_usuario: req.params.idUser
-                }}
-            )
+            if( req.query.situacaoCadastro == 'Aceitar' ){
+                
+                await db.pcpjp2021_tb_usuario.update({
+                        bt_ativo: true
+                    },{
+                    where: {
+                        id_usuario: req.params.idUser
+                    }}
+                )
+
+            } else if( req.query.situacaoCadastro == 'Recusar' ){
+
+                await db.pcpjp2021_tb_usuario.destroy({
+                    where: {
+                        id_usuario: req.params.idUser
+                    }
+                })
+
+            }
 
             resp.sendStatus(200)
             

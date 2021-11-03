@@ -1,5 +1,7 @@
 import styled from "styled-components"
 
+import { useEffect } from 'react'
+
 const Conatainer = styled.div `
 
 display: flex;
@@ -34,23 +36,37 @@ button {
 }
 `
 export default function Filters(props){
+
+// const FuncionList = () => {
+//     props.listarUser()
+// }
+
+useEffect( () => {
+    props.listarUser()
+
+}, [props.option1.value, props.option2.value] )
+
     return (
         <Conatainer>
             <div className="first-input">
-                <div className="name"> {props.option1}</div>
-                <input type="" />
+                <div className="name"> {props.option1.label}</div>
+                <input type="" 
+                        value={props.option1.value}
+                        onChange={ (e) => props.option1.set(e.target.value)}
+                />
             </div>
             <div className="second-input">
-                <div className="name"> {props.option2} </div>
-                <input type="" />
+                <div className="name"> {props.option2.label} </div>
+                <input type="" 
+                        value={props.option2.value}
+                        onChange={ (e) => props.option2.set(e.target.value)}
+                />
             </div>
-            <div className="third-input">
-                <div className="name"> {props.option3} </div>
-                <input type="" />
-            </div>
+
             <div className="buttonss">
-                <button className="a">Buscar</button>
-                <button>Limpar</button>
+                <button onClick={ () => { props.option2.set(""); props.option1.set("") } } >
+                    Limpar
+                </button>
             </div>
         </Conatainer>
     )}

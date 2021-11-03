@@ -20,7 +20,7 @@ span {
     }
 
 .track2 {
-    background-color: #FAFEFF;
+    background-color: rgb(252, 252, 252);
     height: 34em;
 }
 
@@ -54,6 +54,8 @@ margin-bottom: 3em;
     text-align: center;
 
     font-size: 14px;
+
+    box-shadow: 0 0 6px .3px rgba(0, 0, 0, .25)
 }
 
 .title {
@@ -92,11 +94,29 @@ margin-bottom: 3em;
 }
 
 .bord {
-    border: solid #A9FFE0;
-    background-color: #A9FFE0;
-    width: 1em;
-    height: 1em;
+    /* border: solid #A9FFE0; */
+    background-color: #000;
+    width: 12px;
+    height: 12px;
     margin-right: 1em;
+    animation-name: topic;
+    animation-iteration-count: infinite;
+    animation-duration: 4s;
+    /* transform: rotate(90); */
+
+
+        @keyframes topic {
+            0% {
+                transform: rotate(0deg);
+                /* background-color: #A9FFE0; */
+            }
+            100% {
+                transform: rotate(360deg);
+                /* background-color: #000; */
+
+            }
+        }
+
 }
 
 .caption {

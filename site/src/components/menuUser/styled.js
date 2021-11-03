@@ -61,6 +61,7 @@ export default function Menu(Props) {
 const nav = useHistory()
 
 let cookieUser = Cookie.get('User')
+console.log(cookieUser)
     // let cookieAdm = Cookie.get('Adm')
     if( cookieUser === undefined || JSON.parse(cookieUser).bt_ativo === false  ){
         nav.push('/login')

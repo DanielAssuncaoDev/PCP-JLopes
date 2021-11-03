@@ -35,6 +35,12 @@ export default function Home() {
                 <div className="title3"> Gerencie os recebimentos e acompanhe toda a movimentação de entrada dos produtos </div>
                 <div className="box-track"> 
                     <div className="box-titles"> 
+                        {/* <ul>
+                            <li>  O sistema de fluxo de caixa é simples e não toma tempo. Para utilizar não é necessário possuir conhecimentos avançados em informática.  </li>
+                            <li> O sistema mostra relatórios que vão direto ao ponto e ajudam o empreendedor a entender o que está acontencendo em diversos setores de sua empresa. </li>
+                            <li> Confira em tempo real o histórico das movimentações de seu estoque.  </li>
+                            <li> Entenda quais são os produtos e serviços com maior saída e quais não estão vendendo muito. </li>
+                        </ul> */}
                         <div className="box-captions">
                             <div className="bord"> </div>
                             <div className="caption"> O sistema de fluxo de caixa é simples e não toma tempo. Para utilizar não é necessário possuir conhecimentos avançados em informática. </div>

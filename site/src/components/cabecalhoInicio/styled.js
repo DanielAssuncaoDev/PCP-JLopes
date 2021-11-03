@@ -9,6 +9,8 @@ display: flex;
 justify-content: space-between;
 padding: 1em 25em 1em 25em;
 
+box-shadow: 0px 2px 10px rgba(0, 0, 0, .25);
+
 a {
     outline: none;
     text-decoration: none;

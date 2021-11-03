@@ -60,6 +60,14 @@ margin-bottom: 4em;
     padding: 12px;
 
     cursor: pointer;
+    transition-property: all;
+    transition-duration: .5s;
+
+        &:hover{
+            background-color:rgb(41, 41, 41);
+            border-color: rgb(187, 187, 187);
+            box-shadow: 0 0 5px .1px rgb(187, 187, 187, .80);
+        }
 
 }
 

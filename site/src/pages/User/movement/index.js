@@ -4,6 +4,8 @@ import Menu from "../../../components/menuUser/styled"
 import CabeCalho from "../../../components/cabecalho/styled";
 
 import { useState, useEffect } from 'react'
+import Cookie from 'js-cookie'
+
 
 import Api from '../../../service/api'
 const api = new Api()
@@ -25,7 +27,8 @@ const [ qtdM, setQtdM ] = useState('')
 
 
     const ControleEstoque = async(mov) => {
-        let ce = await api.controleEstoque( {codigoP, qtdM, mov} )
+        let cookieUser = JSON.parse( Cookie.get('User') )
+        let ce = await api.controleEstoque( cookieUser.id_usuario,  {codigoP, qtdM, mov} )
 
         if(ce.erro !== undefined){
             alert(ce.erro)

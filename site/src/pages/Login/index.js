@@ -30,16 +30,18 @@ const [ senha, setSenha ] = useState('')
 
         } else if( cookieAdm !== undefined ){ 
             nav.push('/inputManager')
-            // Cookie.remove('Adm')
         }
 
 
     let Login = async() => {
 
+        if( email === '' || senha === '' ){
+            alert('Todos os campos devem estar preenchidos')
+            return
+        }
+
         let user = await api.loginUsuario({email, senha})
         let adm = await api.loginAdm({email, senha})
-
-        // console.log(adm)
 
 
             confirmAlert({
@@ -81,21 +83,6 @@ const [ senha, setSenha ] = useState('')
                 ]
             })
 
-            // if(user.erro !== undefined){
-            //     alert(user.erro)
-            //     return
-            // } else {
-
-            //     Cookie.set('User', JSON.stringify(user))
-
-            //         if(user.bt_ativo === false){
-            //             nav.push('/wait')
-            //         } else {
-            //             nav.push('/')
-            //         }
-                
-            // }
-
     }
 
     return (
@@ -118,7 +105,7 @@ const [ senha, setSenha ] = useState('')
                             onChange={ (e) => setSenha(e.target.value) }
                     />
                 </div>
-                <div className="register-but"> <button > Cadastrar-se </button></div>
+                <div className="register-but" onClick={ () => nav.push('/cadastrarse') } > <button > Cadastrar-se </button></div>
 
                 <div className="access" onClick={ () => Login() }> <button>Acessar</button> </div>
             </div>

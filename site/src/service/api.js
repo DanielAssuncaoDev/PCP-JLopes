@@ -47,18 +47,18 @@ import axios from 'axios'
                 return r.data
             }
 
-            async controleEstoque ( movimentacao ){
-                let r = await api.put(`/controleestoque`, movimentacao )
+            async controleEstoque ( idUsuario ,movimentacao ){
+                let r = await api.put(`/controleestoque/${idUsuario}`, movimentacao )
                 return r.data
             }
 
-            async usersNaoCadastrados () {
-                let r = await api.get('/usersNaoCadastrados')
+            async usersNaoCadastrados ( nome, email ) {
+                let r = await api.get(`/usersNaoCadastrados?nome=${nome}&email=${email}`)
                 return r.data
             }
 
-            async aprovarUser ( idUser ){
-                let r = await api.put(`aprovarCad/${idUser}`)
+            async gerenciarCadastro ( idUser, situacaoCadastro ){
+                let r = await api.put(`aprovarCad/${idUser}?situacaoCadastro=${situacaoCadastro}`)
                 return r.data
             }
 

@@ -18,9 +18,14 @@ color: white;
     width: 48em;
      & img {
          margin-top: 5em;
+         width: 100%
      }
 }
 
+
+.FormCadastarse{
+    width: 100%;
+}
 
 .message {
     text-align: center;
@@ -29,7 +34,7 @@ color: white;
 }
 
 .inser-info {
-padding: 5em 3em 7em 3em;
+padding: 5em ;
 }
 
 
@@ -69,18 +74,26 @@ cursor: pointer;
 font-size: 18px;
 
 width: 100%;
-height: 40px;
+/* height: 40px; */
 
 }
 
 
 .access {
-    border: 2px solid #17191A;
-    background-color: #17191A;
+    border: 2px solid black;
+    background-color: black;
     text-align: center;
-    /* padding: 12px; */
+    padding: 12px;
 
     cursor: pointer;
+    transition-property: all;
+    transition-duration: .5s;
+
+        &:hover{
+            background-color:rgb(41, 41, 41);
+            border-color: rgb(187, 187, 187);
+            box-shadow: 0 0 5px .1px rgb(187, 187, 187, .80);
+        }
 
 }
 `

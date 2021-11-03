@@ -45,15 +45,17 @@ th {
 
 
 
-.table {
+table {
    margin-top: 3em;
    margin-left: 3em;
+
+   border-collapse: collapse;
 }
 
 td {
     text-align: center;
-    height:  61.93px;
-    padding: .7em;
+    /* height:  61.93px; */
+    padding: .1em;
     color: #6D6868;
     font-weight: 600;
 }
@@ -61,6 +63,7 @@ td {
 .imgs {
     display: flex;
     flex-direction: row;    
+    justify-content: center;
     margin-top: 1em;
 }
 
