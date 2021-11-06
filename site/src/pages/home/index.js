@@ -27,7 +27,7 @@ export default function Home() {
                     <div className="card1"> 
                         <div className="log"> <img src="./assets/images/kisspng-reset-download-clip-art-restart-png-photos-5a758941b92ea7 2.png" alt="" width="150"/></div>
                         <div className="title"> Sugestões </div>
-                        <div className="description"> Conte com relatórios que irão de forma clara e objetiva permitir que você avalie seu fluxo de caixa , estoque e o desenvolvimento de seu negócio. </div>
+                        <div className="description"> Conte com nosso sistema de Reposição de mercadoria Sendo fundamental buscar a perfeição durante a realização dessa atividade, evitando problemas como as rupturas e as perdas de produtos da loja. </div>
                     </div>
                 </div>
             </div>
