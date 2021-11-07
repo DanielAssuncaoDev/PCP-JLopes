@@ -71,7 +71,7 @@ const nav = useHistory()
 
     return (
     <Conatainer>
-        <div className="image"> </div>
+        <div className="image">  <img src="./assets/images/removebg.png" alt="" width="250" height="220" /> </div>
         <div className="barra"></div>
         <div className="box">
             

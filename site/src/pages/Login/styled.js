@@ -25,7 +25,7 @@ color: white;
      }
 }
 .inser-info {
-padding: 7em 4em 7em 5em;
+padding: 7em 8em 7em 4em;
 }
 
 input {

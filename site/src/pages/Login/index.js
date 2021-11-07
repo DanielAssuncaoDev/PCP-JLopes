@@ -106,19 +106,23 @@ const [ senha, setSenha ] = useState('')
             </div>
             <div className="inser-info">
                 <div className="message">Seja Bem-Vindo ! </div>
-                <div className="emails"> Email 
-                    <input type="email" 
+                <div className="emails"> 
+                    <input type="email"
+                            name="email" 
+                            placeholder=" Email"
                             value={email}
                             onChange={ (e) => setEmail(e.target.value) }
                     />
                 </div>
-                <div className="password"> Senha 
+                <div className="password">  
                     <input type="password" 
+                            placeholder="Senha"
                             value={senha}
                             onChange={ (e) => setSenha(e.target.value) }
                     />
                 </div>
                 <div className="register-but"> <Link to="./cadastrarse"> <button > Cadastrar-se </button> </Link></div>
+            <div className="register-but">  <button > Cadastrar-se </button>  </div>
 
                 <div className="access" onClick={ () => Login() }> <button>Acessar</button> </div>
             </div>

@@ -52,6 +52,31 @@ import axios from 'axios'
                 return r.data
             }
 
+            async ListarUsuarios () {
+                let r = await api.get('/usuarioscadastrados')
+                return r.data
+            }
+
+            async DeletarUsuarios ( idUsuario ) {
+                let r = await api.delete(`/usuarioscadastrados/${idUsuario}`)
+                return r.data
+            }
+
+            async ListarControleEstoque () {
+                let r = await api.get('/controleEstoque')
+                return r.data
+            }
+
+            async ListarProdutosUsuario () {
+                let r = await api.get('/produtosUsuarios')
+                return r.data
+            }
+
+            async DeletarProdutosUsuario (idProduto) {
+                let r = await api.delete(`/DeletarProdutoUsu/${idProduto}`)
+                return r.data
+            }
+
             async usersNaoCadastrados () {
                 let r = await api.get('/usersNaoCadastrados')
                 return r.data
