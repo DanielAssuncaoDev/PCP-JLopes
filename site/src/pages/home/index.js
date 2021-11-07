@@ -52,7 +52,7 @@ export default function Home() {
                             <div className="caption"> Entenda quais são os produtos e serviços com maior saída e quais não estão vendendo muito. </div>
                         </div>
                     </div>
-                     <div className="images-box"> <img src=".;./assets/images/computer.png" alt="" width="380" /> </div>
+                     <div className="images-box">  <img src="./assets/images/viu.png" alt="" width="450" height="420" /></div>
                 </div>
             </div>
         </Container>

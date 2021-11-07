@@ -14,14 +14,14 @@ a{
     color: black;
 }
 .barra {
-    margin-top: 3em;
+    margin-bottom: 2em;
     border: 2px solid none;
     background-color: black;
     height: 2em;
 }
 
 .box {
-    margin-top: 5em;
+    margin-top: 0em;
 }
 
 .n1, .n2, .n3, .n4 {
@@ -68,7 +68,7 @@ let cookieUser = Cookie.get('User')
 
     return (
     <Conatainer>
-        <div className="image"> </div>
+        <div className="image">  <img src="./assets/images/removebg.png" alt="" width="250" height="220" /> </div>
         <div className="barra"></div>
         <div className="box">
             

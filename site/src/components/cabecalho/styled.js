@@ -57,7 +57,7 @@ export default function CabeCalho() {
                                     } else {
                                         Cookie.remove('Adm')
                                     }
-                                nav.push('/login')
+                                nav.push('/')
 
                             }
                         }
