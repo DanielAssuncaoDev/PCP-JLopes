@@ -20,16 +20,12 @@ export default function InManager() {
                     <thead>
                         <th> Nome </th>
                         <th> Email </th>
-                        <th> Turma </th>
-                        <th> Chamada</th>
                         <th className="a">Ações</th>
                     </thead>
                         <tbody>
                             <tr>
                                 <td> Fulano deucrano da silva </td>
                                 <td> FulanodeucranoADM-B@acaofatima.com.br </td>
-                                <td> ADM-B</td>
-                                <td>24</td>
                                 <td className="imgs">  
                                     <div className="ss" style={{cursor: 'pointer'}}>  <img src="./assets/images/pngwing 9.png" alt="" height="40"/> </div> 
                                     <div className="dd" style={{cursor: 'pointer'}}> <img src="./assets/images/pngwing 10.png" alt="" height="40"/></div> 

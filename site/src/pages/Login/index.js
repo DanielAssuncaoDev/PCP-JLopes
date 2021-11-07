@@ -6,7 +6,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 
 import { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import Cookie from 'js-cookie'
 
 import Api from '../../service/api'
@@ -118,7 +118,7 @@ const [ senha, setSenha ] = useState('')
                             onChange={ (e) => setSenha(e.target.value) }
                     />
                 </div>
-                <div className="register-but"> <button > Cadastrar-se </button></div>
+                <div className="register-but"> <Link to="./cadastrarse"> <button > Cadastrar-se </button> </Link></div>
 
                 <div className="access" onClick={ () => Login() }> <button>Acessar</button> </div>
             </div>

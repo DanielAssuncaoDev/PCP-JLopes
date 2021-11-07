@@ -38,11 +38,9 @@ thead {
 th {
     height: 60px;
     text-align: center;
-    padding: .1em 3em;
+    padding: .1em .3em;
     color: #ffff;
 } 
-
-
 
 
 .table {
@@ -53,7 +51,7 @@ th {
 td {
     text-align: center;
     height:  13.93px;
-    padding: .6em;
+    padding: .1em 4.6em;
     color: #6D6868;
     font-weight: 600;
 }
