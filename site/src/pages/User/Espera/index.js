@@ -21,16 +21,8 @@ export default function(){
             let cookie = JSON.parse(Cookie.get('User'))
 
             let user = await api.gerenciarLogin(cookie.id_usuario)
-
-            console.log(user)
-
             if(user.bt_ativo === true){
-                // nav.push({
-                //     path: '/',
-                //     state: cookie
-                // })
-                nav.push('/')
-                // alert('Caiu aqui poxa')
+                nav.push('/home')
             }
 
         }

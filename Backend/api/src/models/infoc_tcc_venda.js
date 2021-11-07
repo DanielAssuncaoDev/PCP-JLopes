@@ -1,50 +1,50 @@
 import _sequelize from 'sequelize';
 const { Model, Sequelize } = _sequelize;
 
-export default class pcpjp2021_tb_controle_estoque extends Model {
+export default class infoc_tcc_venda extends Model {
   static init(sequelize, DataTypes) {
   super.init({
-    id_controle_estoque: {
+    id_venda: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    id_usuario: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'pcpjp2021_tb_usuario',
-        key: 'id_usuario'
-      }
-    },
     id_produto: {
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
-        model: 'pcpjp2021_tb_produto',
+        model: 'infoc_tcc_produto',
         key: 'id_produto'
       }
     },
-    qtd_produtos: {
+    id_cliente: {
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: true,
+      references: {
+        model: 'infoc_tcc_cliente',
+        key: 'id_cliente'
+      }
     },
-    ds_movimentacao: {
-      type: DataTypes.STRING(200),
-      allowNull: true
-    },
-    vl_lucro: {
-      type: DataTypes.DECIMAL(10,2),
-      allowNull: true
-    },
-    dt_movimentacao: {
+    dt_compra: {
       type: DataTypes.DATEONLY,
+      allowNull: true
+    },
+    ds_pagamento: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    nr_celular: {
+      type: DataTypes.DECIMAL(12,3),
+      allowNull: true
+    },
+    ds_preco: {
+      type: DataTypes.DECIMAL(12,3),
       allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'pcpjp2021_tb_controle_estoque',
+    tableName: 'infoc_tcc_venda',
     timestamps: false,
     indexes: [
       {
@@ -52,14 +52,7 @@ export default class pcpjp2021_tb_controle_estoque extends Model {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "id_controle_estoque" },
-        ]
-      },
-      {
-        name: "id_usuario",
-        using: "BTREE",
-        fields: [
-          { name: "id_usuario" },
+          { name: "id_venda" },
         ]
       },
       {
@@ -69,8 +62,15 @@ export default class pcpjp2021_tb_controle_estoque extends Model {
           { name: "id_produto" },
         ]
       },
+      {
+        name: "id_cliente",
+        using: "BTREE",
+        fields: [
+          { name: "id_cliente" },
+        ]
+      },
     ]
   });
-  return pcpjp2021_tb_controle_estoque;
+  return infoc_tcc_venda;
   }
 }

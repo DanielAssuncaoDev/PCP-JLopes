@@ -1,5 +1,9 @@
 import styled from "styled-components"
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
+import Cookie from "js-cookie"
+
+
+
 const Conatainer = styled.div `
 background-color: #17191A;
 height: 100vh;
@@ -53,6 +57,18 @@ a{
 
 
 export default function Menu(Props) {
+
+
+const nav = useHistory()
+
+
+    // let cookieUser = Cookie.get('User')
+    let cookieAdm = Cookie.get('Adm')
+
+    if( cookieAdm === undefined ){
+        nav.push('/login')
+    }
+
     return (
     <Conatainer>
         <div className="image"> </div>

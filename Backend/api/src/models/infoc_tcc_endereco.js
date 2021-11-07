@@ -1,26 +1,34 @@
 import _sequelize from 'sequelize';
 const { Model, Sequelize } = _sequelize;
 
-export default class pcpjp2021_tb_adm extends Model {
+export default class infoc_tcc_endereco extends Model {
   static init(sequelize, DataTypes) {
   super.init({
-    id_adm: {
+    id_endereco: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    ds_email: {
-      type: DataTypes.STRING(100),
+    nr_cep: {
+      type: DataTypes.STRING(255),
       allowNull: true
     },
-    ds_senha: {
-      type: DataTypes.STRING(100),
+    nm_rua: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    nr_casa: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    ds_referencia: {
+      type: DataTypes.STRING(255),
       allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'pcpjp2021_tb_adm',
+    tableName: 'infoc_tcc_endereco',
     timestamps: false,
     indexes: [
       {
@@ -28,11 +36,11 @@ export default class pcpjp2021_tb_adm extends Model {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "id_adm" },
+          { name: "id_endereco" },
         ]
       },
     ]
   });
-  return pcpjp2021_tb_adm;
+  return infoc_tcc_endereco;
   }
 }
