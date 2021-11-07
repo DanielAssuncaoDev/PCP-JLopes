@@ -8,20 +8,20 @@ const Conatainer = styled.div `
 background-color: #17191A;
 height: 100vh;
 width: 16em;
-a{
+a {
     text-decoration: none;
     outline: none;
     color: black;
 }
 .barra {
-    margin-top: 3em;
+    margin-bottom: 2em;
     border: 2px solid none;
     background-color: black;
     height: 2em;
 }
 
 .box {
-    margin-top: 5em;
+    margin-top: 0em;
 }
 
 .n1, .n2, .n3, .n4 {

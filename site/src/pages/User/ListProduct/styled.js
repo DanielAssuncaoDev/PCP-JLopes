@@ -16,7 +16,7 @@ flex-direction: row;
 
 const Listar = styled.div`
 
-padding: 0px 1em 0px 0em;
+padding: 0px 0em 0px 0em;
 
 .product {
     margin-left: 2em;
@@ -68,9 +68,10 @@ tbody {
     display: flex;
     justify-content: flex-end;
 
-     > button {
+ a > button{
     position: fixed;
-    bottom: 1em;
+    right: 1%;
+    bottom: 2em;
     border: none;
     background-color: #12E100;
     border-radius: 5px;
