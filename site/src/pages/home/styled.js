@@ -4,17 +4,49 @@ const Container = styled.div `
 
 
 .track1 {
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 span {
     color: #00C89B;
 }
 
+.butonsHome{
+    display: flex;
+    align-self: center;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+    width: 500px;
+    margin: 2.3em;
+
+        button {
+            border: none;
+            border-radius: 33px;
+
+            height: 3.2em;
+            width: 9.7em;
+
+            font-size: 15px;
+            color: #00C89B;
+            background-color: #1E1D1D;
+
+            transition-property: all;
+            transition-duration: .45s;
+
+                &:hover{
+                    box-shadow: 2px 5px 8px rgba(0, 0, 0, .75);
+                }
+        }
+
+}
+
 .title1 {
     font-size: 34px;
     margin-top: 1em;
-    margin-bottom: 1em;
+    /* margin-bottom: 1em; */
 
     padding: 0em 8em 0em 8em
     }

@@ -78,8 +78,8 @@ import axios from 'axios'
                 return r.data
             }
 
-            async usersNaoCadastrados () {
-                let r = await api.get('/usersNaoCadastrados')
+            async usersNaoCadastrados (nome, email) {
+                let r = await api.get(`/usersNaoCadastrados?nome${nome}&email${email}`)
                 return r.data
             }
 

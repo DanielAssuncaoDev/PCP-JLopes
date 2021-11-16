@@ -40,6 +40,7 @@ export default function Filters(props){
 // const FuncionList = () => {
 //     props.listarUser()
 // }
+// console.log(props.listarUser)
 
 useEffect( () => {
     props.listarUser()

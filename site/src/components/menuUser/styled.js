@@ -90,7 +90,7 @@ console.log(cookieUser)
              <Link to="/Movement"> 
                 <div className="n3">
                     <div className="b1"> </div> 
-                    <div className="name">  Movimentação de Estoque  </div>  
+                    <div className="name">  Controle de Estoque  </div>  
                 </div>
             </Link>
 

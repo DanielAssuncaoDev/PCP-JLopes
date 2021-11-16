@@ -46,11 +46,19 @@ font-size: 18px;
 
 }
 
-.register-but {
-display: flex;
-justify-content: flex-end;
-margin-bottom: 4em;
-}
+    .register-but {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 1.2em;
+/* 
+        transition-property: all;
+        transition-duration: .5s;
+
+            &:hover{
+                font-weight: 700;
+                font-size: 17px;
+            }    */
+    }
 
 
 .access {

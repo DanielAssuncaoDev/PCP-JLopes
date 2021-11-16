@@ -105,7 +105,9 @@ const [ senha, setSenha ] = useState('')
                             onChange={ (e) => setSenha(e.target.value) }
                     />
                 </div>
-                <div className="register-but" onClick={ () => nav.push('/cadastrarse') } > <button > Cadastrar-se </button></div>
+                <div className="register-but"  > 
+                    <button onClick={ () => nav.push('/cadastrarse') }> Cadastrar-se </button>
+                </div>
 
                 <div className="access" onClick={ () => Login() }> <button>Acessar</button> </div>
             </div>

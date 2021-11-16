@@ -25,6 +25,26 @@ color: white;
 
 .FormCadastarse{
     width: 100%;
+
+    .names input{
+        width: 100%
+    }
+
+    .email,
+    .password{
+        width: 48%;
+    
+        input {
+            width: 100%;
+        }
+    }
+
+}
+
+.credenciais{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .message {
@@ -34,17 +54,18 @@ color: white;
 }
 
 .inser-info {
-padding: 5em ;
+    padding: 5em ;
+    width: 35%;
 }
 
 
 
 input {
-    width: 34em;
-    height: 1.4em;
+    box-sizing: border-box;
+    height: 3em;
     padding: 10px;
     margin-top: 7px;
-    margin-bottom: 2.5em;
+    margin-bottom: 1.9em;
 
     outline: red;
     border: none;
@@ -56,11 +77,29 @@ input {
 }
 
 .box-input1 input {
-    width: 15em;
+    width: 50%;
 }
 
-.turma {
-    margin-right: 25px;
+.fazerLogin{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    margin-bottom: 1.4em;
+
+    label:nth-child(2){
+        color: #000;
+        font-weight: 600;
+
+        transition-property: all;
+        transition-duration: .5s;
+
+            &:hover{
+                font-weight: 700;
+                font-size: 17px;
+            }   
+    }
+
 }
 
 
