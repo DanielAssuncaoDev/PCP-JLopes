@@ -662,12 +662,12 @@ import require from 'sequelize'
         }
     })
 
-    //permite que o adm excluir produtos dos usuarios 
-    app.delete('/DeletarProdutoUsuario/:id_produto', async (req, resp) => {
+    //permite o adm excluir produtos dos usuarios 
+    app.delete('/DeletarProdutoUsuario/:idProduto', async (req, resp) => {
         try{
             const ExcluirProdutoUsu = await db.pcpjp2021_tb_produto.destroy({
                 where: {
-                    id_produto: req.params.id_produto
+                    id_produto: req.params.idProduto
                 }
             })
 
