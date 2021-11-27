@@ -20,16 +20,14 @@ export default function LoginManager() {
                     <thead>
                         <th> Nome </th>
                         <th> Email </th>
-                        <th> Turma </th>
-                        <th> Chamada</th>
+                    
                         <th>ação</th>
                     </thead>
                         <tbody>
                             <tr>
                                 <td> Fulano deucrano da silva </td>
                                 <td> FulanodeucranoADM-B@acaofatima.com.br </td>
-                                <td> ADM-B</td>
-                                <td>24</td>
+                                
                                 <td>  
                                 <div className="dd" style={{cursor: 'pointer'}}> <img src="./assets/images/lixeira.svg" alt="" width="20" /></div> 
                                 </td>

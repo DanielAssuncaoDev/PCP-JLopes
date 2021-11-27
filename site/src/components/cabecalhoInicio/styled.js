@@ -32,8 +32,8 @@ export default function Cards(props) {
 
     return (
         <Container>
-            <div className="a1">Sobre Nós</div>
-            <div className="b1">Home</div>
+             <Link to="./AboutUs"> <div className="a1">Sobre Nós</div> </Link>
+            <Link to="./home">  <div className="b1">Home</div> </Link>
            <Link to="./login"> <div className="c1">Acessar</div> </Link>
         </Container>
     )

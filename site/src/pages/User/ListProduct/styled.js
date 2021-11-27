@@ -16,7 +16,11 @@ flex-direction: row;
 
 const Listar = styled.div`
 
-padding: 0px 1em 0px 1em;
+padding: 0px 0em 0px 0em;
+
+.product {
+    margin-left: 2em;
+}
 .filter {
     display: flex;
 justify-content: flex-end;
@@ -46,43 +50,43 @@ th {
 
 .table {
    margin-top: 2em;
+   margin-left: 2em;
 }
 td {
     text-align: center;
     height:  61.93px;
     padding: .1em;
     color: #6D6868;
-    font-weight: 600;
+    font-weight: 400;
 }
 
 tbody {
-    margin-left: 10px;
+    margin-left: 1px;
 }
 
 .add {
     display: flex;
     justify-content: flex-end;
-}
 
-button {
+ a > button{
     position: fixed;
-    bottom: 1em;
-
+    right: 1%;
+    bottom: 2em;
     border: none;
     background-color: #12E100;
     border-radius: 5px;
     cursor: pointer;
-
     width: 12em;
     padding: 15px 0px;
     
-
     &:hover {
         background-color: #097600;
-;
+
         color: white;
+        }
     }
 }
+
 `
 
 export { Listar, Container }

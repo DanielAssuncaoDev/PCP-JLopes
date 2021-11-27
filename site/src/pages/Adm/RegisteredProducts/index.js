@@ -13,7 +13,7 @@ export default function RegisteredProducts() {
             <Menu />
             <ContainerConteudo>
                 <CabeCalho />
-                <div className="title"> <Titulo nome="Relátorio"/> </div>
+                <div className="title"> <Titulo nome="Produtos Cadastrado"/> </div>
                <div className="filter">  <Filters option1="Nome" option2="Email" option3="Turma" /> </div>
                <div className="table">
                     
@@ -31,7 +31,7 @@ export default function RegisteredProducts() {
                         <tbody>
                             <tr>
                                 <td> Fulano deucrano da silva </td>
-                                <td> FulanodeucranoADM-B@acaofatima.com.br </td>
+                                <td > FulanodeucranoADM-B@acaofatima.com.br </td>
                                 <td> Mesa</td>
                                 <td>Cadeira</td>
                                 <td>  132</td>

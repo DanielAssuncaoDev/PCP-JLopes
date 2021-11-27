@@ -38,7 +38,7 @@ thead {
 th {
     height: 60px;
     text-align: center;
-    padding: .1em 3em;
+    padding: .1em .2em;
     color: #ffff;
 } 
 

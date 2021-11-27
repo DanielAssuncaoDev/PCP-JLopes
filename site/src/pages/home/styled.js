@@ -3,6 +3,10 @@ import styled from "styled-components";
 const Container = styled.div `
 
 
+.image1 img {
+    background-attachment: fixed;
+}
+
 .track1 {
     display: flex;
     flex-direction: column;
@@ -113,7 +117,8 @@ margin-bottom: 3em;
 
 .box-track {
     margin-left: 4em;
-
+     display: flex;
+flex-direction: row;   
 }
 
 
@@ -153,6 +158,11 @@ margin-bottom: 3em;
 
 .caption {
     font-size: 14px;
+    text-align: justify;
+    padding-right: 0em;
+}
+.images-box {
+     margin-top: -7em;
 }
 `
 export {Container }

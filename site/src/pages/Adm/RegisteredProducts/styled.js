@@ -44,7 +44,7 @@ thead {
 th {
     height: 60px;
     text-align: center;
-    padding: .1em .8em;
+    padding: .1em .6em;
     color: #ffff;
     font-size: 12px;
 } 
