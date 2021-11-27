@@ -8,9 +8,6 @@ import require from 'sequelize'
     app.use(cors())
     app.use(express.json())
 
-
-
-
     app.post('/cadastrar', async (req, resp) => {
 
         try {
@@ -504,7 +501,6 @@ import require from 'sequelize'
    app.get('/usersNaoCadastrados', async (req, resp) => {
        try {
             let { nome, email } = req.query
-
             let {Op} = require
 
                 let filtro = [
@@ -581,13 +577,43 @@ import require from 'sequelize'
     //lista usuarios já aprovados e caadastrados
     app.get('/usuarioscadastrados', async (req, resp) => {
         try { 
-             let usuarios = await db.pcpjp2021_tb_usuario.findAll ({          
-                where: { 
-                    bt_ativo: true
-                }
-            })
-        resp.send(usuarios)
+            let { nome, email } = req.query
+            let {Op} = require
 
+                let filtro = [
+                    {nm_usuario: {[ Op.substring ]: nome}, value: nome },
+                    {ds_email: { [ Op.substring ]: email}, value: email }
+                ]
+
+                filtro = filtro.filter( (f) => f.value !== '' )
+
+                for( let c of filtro ){
+                    delete(c.value)
+                }
+
+            let users = null
+
+                if( filtro.length != 0 ){
+                    
+                    users = await db.pcpjp2021_tb_usuario.findAll({
+                        where: {
+                            bt_ativo: true,
+                            [Op.or]: filtro
+                        }
+                    })
+
+                } else {
+
+                    users = await db.pcpjp2021_tb_usuario.findAll({
+                        where: {
+                            bt_ativo: true
+                        }
+                    })
+                       
+                }
+
+           resp.send(users)
+           
         } catch (e) {
             resp.send({erro: e.toString()})
         }
@@ -597,6 +623,19 @@ import require from 'sequelize'
     //exclui o cadastro dos usuarios
     app.delete('/usuarioscadastrados/:idUsuario', async (req, resp) =>{
         try{
+            
+            let controleEstoque = await db.pcpjp2021_tb_controle_estoque.destroy({
+                where: {
+                    id_usuario: req.params.idUsuario
+                }
+            })
+
+            let ProdutosUser = await db.pcpjp2021_tb_produto.destroy({
+                where: {
+                    id_usuario: req.params.idUsuario
+                }
+            })
+
             let deletarUsu = await db.pcpjp2021_tb_usuario.destroy({
                 where: {
                     id_usuario: req.params.idUsuario
@@ -619,17 +658,17 @@ import require from 'sequelize'
                         model: db.pcpjp2021_tb_usuario,
                         as: "id_usuario_pcpjp2021_tb_usuario",
                         required: true,
-                        attributes: 
-                        ['nm_usuario', 'usuario']
-                        ['ds_email', 'email']    
+                        // attributes: 
+                        // ['nm_usuario', 'usuario']
+                        // ['ds_email', 'email']    
                     },
                     {
                         model: db.pcpjp2021_tb_produto,
                         as: "id_produto_pcpjp2021_tb_produto",
                         required: true,
-                        attributes: 
-                        ['nm_produto', 'produto']
-                        ['nr_codigo', 'codigoP']
+                        // attributes: 
+                        // ['nm_produto', 'produto']
+                        // ['nr_codigo', 'codigoP']
                    }
             ]
         })
@@ -652,7 +691,6 @@ import require from 'sequelize'
                     ['nm_usuario', 'usuario']
                     ['ds_email', 'email']
                 }] 
-                
             })
 
             resp.send(ListarProdutos)

@@ -53,8 +53,8 @@ import axios from 'axios'
             }
 
 
-            async ListarUsuarios () {
-                let r = await api.get('/usuarioscadastrados')
+            async ListarUsuarios (nome, email) {
+                let r = await api.get(`/usuarioscadastrados?nome=${nome}&email=${email}`)
                 return r.data
             }
 
@@ -79,7 +79,7 @@ import axios from 'axios'
             }
 
             async usersNaoCadastrados (nome, email) {
-                let r = await api.get(`/usersNaoCadastrados?nome${nome}&email${email}`)
+                let r = await api.get(`/usersNaoCadastrados?nome=${nome}&email=${email}`)
                 return r.data
             }
 
