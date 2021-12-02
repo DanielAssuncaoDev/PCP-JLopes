@@ -1,6 +1,6 @@
 import { Containers, ContainerConteudo} from "./styled";
 
-import CabeCalho from "../../../components/cabecalho/styled";
+import CabeCalho from "../../../components/cabecalho/index";
 import Cards from "../../../components/Cards/styled";
 import Menu from "../../../components/menuUser/styled"
 

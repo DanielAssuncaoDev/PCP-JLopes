@@ -24,6 +24,12 @@ import require from 'sequelize'
                 return
             }
 
+            if( cd.email.includes('@') == false ){
+                resp.send({erro: 'Insira um Email válido'})
+                return
+            }
+
+            console.log(cd)
 
                 let inserirCadastro = {
                     nm_usuario: cd.nome,
@@ -65,8 +71,9 @@ import require from 'sequelize'
 
         try {
             let user = req.body;
-
             
+            console.log(user)
+
             let login = await db.pcpjp2021_tb_usuario.findOne({
                 where: {
                     ds_email: user.email,
@@ -74,6 +81,7 @@ import require from 'sequelize'
                 }
             })
 
+            console.log(login)
 
                 if( login == null ){
                     resp.send({erro: 'Cadastro não foi encontrado'})
@@ -649,30 +657,183 @@ import require from 'sequelize'
         }
     })
 
+
+        function FiltroProdutosSimples( NomeP, CodP ){
+
+            const { Op } = require;
+
+            let filtrosP = [
+                {
+                    nm_produto: {[Op.substring]: NomeP },
+                    value: NomeP
+                },
+                {
+                    nr_codigo:  {[Op.substring]: CodP },
+                    value: CodP
+                }
+            ]
+
+            filtrosP = filtrosP.filter( (c) => c.value != '' )
+
+                for( let c of filtrosP ){
+                    delete(c.value)
+                }
+
+            return filtrosP
+        }
+
+        function FiltrosAvancado( NomeUsuario, DtMovimentacao, NProduto, Categoria ){
+
+            const { Op } = require;
+
+            let FiltroUser = [
+                {
+                    nm_usuario: {[Op.substring]: NomeUsuario },
+                    value: NomeUsuario
+                }
+            ]
+            FiltroUser = FiltroUser.filter( (c) => c.value != '' )
+
+            for( let c of FiltroUser ){
+                delete(c.value)
+            }
+
+
+            let FiltroControleEstoque = [
+                {
+                    dt_movimentacao: {[Op.substring]: DtMovimentacao },
+                    value: DtMovimentacao
+                }
+            ]
+            FiltroControleEstoque = FiltroControleEstoque.filter( (c) => c.value != '' )
+
+            for( let c of FiltroControleEstoque ){
+                delete(c.value)
+            }
+
+
+            let FiltroProduto = [
+                {
+                    nm_produto: {[Op.substring]: NProduto },
+                    value: NProduto
+                },
+                {
+                    nm_produto: {[Op.substring]: Categoria },
+                    value: Categoria
+                }
+            ]
+            FiltroProduto = FiltroProduto.filter( (c) => c.value != '' )
+
+            for( let c of FiltroProduto ){
+                delete(c.value)
+            }
+
+            return {
+                FiltroProduto,
+                FiltroControleEstoque,
+                FiltroUser
+            }
+
+        }
+
+
+
     //permite que o adm veja o controle de estoque dos usuarios
     app.get('/controleEstoque', async (req, resp) => {
         try { 
-            let controleEsto = await db.pcpjp2021_tb_controle_estoque.findAll({
-                include: [
-                    {
-                        model: db.pcpjp2021_tb_usuario,
-                        as: "id_usuario_pcpjp2021_tb_usuario",
-                        required: true,
-                        // attributes: 
-                        // ['nm_usuario', 'usuario']
-                        // ['ds_email', 'email']    
-                    },
-                    {
-                        model: db.pcpjp2021_tb_produto,
-                        as: "id_produto_pcpjp2021_tb_produto",
-                        required: true,
-                        // attributes: 
-                        // ['nm_produto', 'produto']
-                        // ['nr_codigo', 'codigoP']
-                   }
-            ]
-        })
-                        resp.send(controleEsto)
+
+
+            const { Op } = require;
+
+            let filtrosP = FiltroProdutosSimples(req.query.nomeP, req.query.codigoP )
+            let FiltroAvancado = FiltrosAvancado(req.query.NomeUser, req.query.DtMovimentacao, req.query.nomeP, req.query.categoriaP)
+  
+            console.log(req.query.buscaAvancada)
+
+                let controleEsto = null
+
+            
+
+                // if (filtrosP.length != 0 || FiltroAvancado.FiltroProduto.length  != 0  &&  FiltroAvancado.FiltroControleEstoque.length  != 0 &&  FiltroAvancado.FiltroUser.length  != 0  ){
+
+
+                    if( req.query.buscaAvancada == 'false' ){
+                    
+                        if(filtrosP.length != 0){
+                            filtrosP = {
+                                [Op.or]: filtrosP
+                            }
+                        }
+
+                        controleEsto = await db.pcpjp2021_tb_controle_estoque.findAll({
+                            include: [
+                                {
+                                    model: db.pcpjp2021_tb_usuario,
+                                    as: "id_usuario_pcpjp2021_tb_usuario",
+                                    required: true,
+                                   
+                                },
+                                {
+                                    model: db.pcpjp2021_tb_produto,
+                                    as: "id_produto_pcpjp2021_tb_produto",
+                                    required: true,
+                                    where: filtrosP
+                                    
+                               }
+                            ]
+                        })
+                    
+                    } else {
+
+                        controleEsto = await db.pcpjp2021_tb_controle_estoque.findAll({
+                            where: FiltroAvancado.FiltroControleEstoque,
+                            include: [
+                                {
+                                    model: db.pcpjp2021_tb_usuario,
+                                    as: "id_usuario_pcpjp2021_tb_usuario",
+                                    required: true,
+                                    where: FiltroAvancado.FiltroUser
+
+                                },
+                                {
+                                    model: db.pcpjp2021_tb_produto,
+                                    as: "id_produto_pcpjp2021_tb_produto",
+                                    required: true,
+                                    where: FiltroAvancado.FiltroProduto
+                                    
+                               }
+                            ]
+                        })
+
+                    }
+
+                
+
+                    
+                // } else {
+
+                //     controleEsto = await db.pcpjp2021_tb_controle_estoque.findAll({
+                //         include: [
+                //             {
+                //                 model: db.pcpjp2021_tb_usuario,
+                //                 as: "id_usuario_pcpjp2021_tb_usuario",
+                //                 required: true,
+                                
+                //             },
+                //             {
+                //                 model: db.pcpjp2021_tb_produto,
+                //                 as: "id_produto_pcpjp2021_tb_produto",
+                //                 required: true,
+                                
+                //            }
+                //         ]
+                //     })
+
+                // }
+
+       
+
+        resp.send(controleEsto)
 
         } catch (e) {
             resp.send({erro: e.toString()})
@@ -682,14 +843,54 @@ import require from 'sequelize'
     //lista os produtos cadastrados dos usuarios
     app.get('/produtosUsuarios', async (req, resp) => {
         try{
+
+            const { Op } = require;
+
+
+                let filtros = [
+                    {
+                        nm_produto: {[Op.substring]:req.query.nomeP},
+                        value: req.query.nomeP
+                    },
+                    {
+                        nr_codigo:  {[Op.substring]: req.query.codigoP},
+                        value: req.query.codigoP
+                    },
+                    {
+                        ds_categoria: {[Op.substring]: req.query.categoriaP},
+                        value: req.query.categoriaP
+                    },
+                    {
+                        dt_cadastro: {[Op.substring]: req.query.dtCadastro},
+                        value: req.query.dtCadastro
+                    }   
+                ]
+            
+
+                filtros = filtros.filter( (c) => c.value != '' )
+
+                for( let c of filtros ){
+                    delete(c.value)
+                }
+
+                if (filtros.length != 0 ){
+
+                    if( req.query.buscaAvancada == 'false' ){
+                        filtros = {
+                            [Op.or]: filtros
+                        }
+                        // console.log(filtros)
+                    }
+                    
+                }
+
             let ListarProdutos = await db.pcpjp2021_tb_produto.findAll({
+                where: filtros,
                 include: [{
                     model: db.pcpjp2021_tb_usuario,
                     as: 'id_usuario_pcpjp2021_tb_usuario',
                     required: true,
-                    attributes: 
-                    ['nm_usuario', 'usuario']
-                    ['ds_email', 'email']
+
                 }] 
             })
 

@@ -1,6 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Gabriela&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Glegoo:wght@400;700&display=swap');
 
+* {box-sizing: border-box;}
 
 body {
   margin: 0;
@@ -9,11 +10,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* 
 .teste {
   color: rgb(187, 187, 187)
-}
-
+} */
+/* 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
+} */

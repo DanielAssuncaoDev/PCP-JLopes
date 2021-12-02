@@ -1,85 +1,89 @@
-import styled from "styled-components";
+import Styled from 'styled-components'
 
-const Container = styled.div `
-display: flex;
-justify-content: space-between;
+export const ContainerEscolherLogin = Styled.div`
+
+background: #17191A;
 height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+padding: 1.5em;
 
-background-color: #006494;
-color: white;
+    .BoxLogin{
+        width: 100%;
+        max-width: 491px;
+        height: 250px;
+        background: #FFF;
+        padding: 1.5em;
+        border-radius: 10px;
+        box-shadow: inset 10px 8px 10px rgba(0, 0, 0, 0.4);
 
+    }
 
-.message {
-    text-align: center;
-    font-size: 34px;
-    margin-bottom: 2em;
-}
-
-.image {
-    background-color: white;
-    height: 100vh;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 3px;
-     & img {
-         margin-top: 5em;
-     }
-}
-.inser-info {
-padding: 7em 3em 7em 0em;
-}
-
-input {
-    width: 29em;
-    height: 1em;
-    padding: 10px;
-    margin-bottom: 2em;
-}
-
-button {
-border: none;
-background: none;
-color: white;
-
-cursor: pointer;
-
-font-size: 18px;
-
-}
-
-    .register-but {
+    .Titulo{
         display: flex;
-        justify-content: flex-end;
-        margin-bottom: 1.2em;
-/* 
-        transition-property: all;
-        transition-duration: .5s;
+        align-items: center;
+        margin-bottom: 30px;
+
+        font: 700 35px Glegoo;
+    }
+
+    .LineTitulo{
+        height: 50px;
+        width: 8px;
+        margin-right: 8px;
+        border-radius: 33px;
+        background: #085C85;
+    }
+
+    .Buttons{
+        margin-top: 2em;
+        height: calc( 100% - 50px );
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+
+        button{
+            border: none;
+            height: 35px;
+            width: 49%;
+            max-width: 208px;
+            border-radius: 33px;
+            font: 700 16px Glegoo;
+            color: #FFF;
+            background: #17191A;
+            box-shadow: 3px 4px 4px rgba(0, 0, 0, 0.25);
+
+            transition-property: all;
+            transition-duration: .4s;
 
             &:hover{
-                font-weight: 700;
-                font-size: 17px;
-            }    */
+                background: #333333;
+                box-shadow: 5px 6px 8px rgba(0, 0, 0, 0.3);
+
+            }
+        }
     }
 
 
-.access {
-    border: 2px solid black;
-    background-color: black;
-    text-align: center;
-    padding: 12px;
+    @media (max-width: 450px){
 
-    cursor: pointer;
-    transition-property: all;
-    transition-duration: .5s;
+        .Titulo{
+            font-size: 24px;
+        }
+        .LineTitulo{
+            display: none;
+        }
+        
+        .Buttons{
+            height: calc( 100% - 96px );
 
-        &:hover{
-            background-color:rgb(41, 41, 41);
-            border-color: rgb(187, 187, 187);
-            box-shadow: 0 0 5px .1px rgb(187, 187, 187, .80);
         }
 
-}
+        .Buttons button{
+            font-size: 12px;
+        }
 
+    }
 
 `
-
-export {Container}

@@ -1,12 +1,13 @@
-import { Container, ContainerConteudo } from "./styled";
+import { Container } from "./styled";
 
-import Menu from '../../../components/menuAdm/styled'
-import Filters from "../../../components/adminFilters/styled";
-import CabeCalho from "../../../components/cabecalho/styled";
-import Titulo from "../../../components/user-titulo/styled";
+import CabeCalho from "../../../components/cabecalho/index";
+import PaginasListar from '../../../components/Outros/PaginaListar/index'
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 
 import Api from '../../../service/api.js'
 const api = new Api()
@@ -14,67 +15,142 @@ const api = new Api()
 export default function InManager() {
 
 const [ users, setUsers ] = useState([])
-const [email, setEmail] = useState('')
-const [nome, setNome] = useState('')
+const [ filtro, setFiltro ] = useState('')
+const [situacao, setSituacao] = useState('')
+
+const nav = useHistory()
 
     const ListarUsers = async() => {
-        let users = await api.usersNaoCadastrados(nome, email)
+        let users = await api.usersNaoCadastrados(filtro, filtro)
         setUsers(users)
-        console.log(users)
 
     }
         useEffect( () => {
+
+            const ListarUsers = async() => {
+                let users = await api.usersNaoCadastrados(filtro, filtro)
+                setUsers(users)
+        
+            }
+
             ListarUsers()
-        }, [] )
+        }, [filtro] )
 
 
-    const GerenciarCadastro = async( idUser, situacao ) => {
+    const GerenciarCadastro = async(User) => {
+        console.log(User)
 
-        console.log(situacao)
-        let r = await api.gerenciarCadastro( idUser, situacao )
+        for( let i of User ){
+            if(typeof(i) === 'object'){
+                User = i
+                break
+            }
+        }        
+        let r = await api.gerenciarCadastro( User.id_usuario, situacao )
 
         if(r.erro !== undefined)
-            return alert(r.erro)
+            return toast.error(r.erro)
 
         ListarUsers()
 
     }
 
+    
+function ConverterProdutos(){
+
+    let p = []
+
+    for( let i of users ){
+        p.push( [i.nm_usuario, i.ds_email, i ] )
+    }
+
+    return p
+}
 
     return (
         <Container>
-            <Menu />
-            <ContainerConteudo>
-                <CabeCalho />
-                <div className="title"> <Titulo nome="Gerenciador de Entrada"/> </div>
-               <div className="filter">  <Filters listarUser={ () => ListarUsers() } option1={{label: 'Nome', value: nome, set: setNome}} option2={{label:"Email", value: email, set: setEmail}} /> </div>
-               <table>
-                    
-                    <thead>
-                        <th> Nome </th>
-                        <th> Email </th>
-                        <th className="a">Ações</th>
-                    </thead>
-                        <tbody>
+            <ToastContainer />
+            <CabeCalho 
+                    OptionsNav={
+                        [
                             {
-                                users.map( (user) =>
-                                        
-                                    <tr>
-                                        <td> {user.nm_usuario} </td>
-                                        <td> {user.ds_email} </td>
-                                        <td className="imgs">  
-                                            <div onClick={ () => GerenciarCadastro( user.id_usuario, 'Aceitar') } className="ss" style={{cursor: 'pointer'}}>  <img src="./assets/images/pngwing 9.png" alt="" height="40"/> </div> 
-                                            <div onClick={ () => GerenciarCadastro( user.id_usuario, 'Recusar') } className="dd" style={{cursor: 'pointer'}}> <img src="./assets/images/pngwing 10.png" alt="" height="40"/></div> 
-                                        </td>
-                                    </tr>  
+                                nome: 'Listar Movimentações',
+                                class: '',
+                                function: () => nav.push('/ReportsManager')
+                            },
+                            {
+                                nome: 'Listar Produtos',
+                                class: '',
+                                function: () => nav.push('/RegisteredProducts')
+                            },
+                            {
+                                nome: 'Usuários Cadastrados',
+                                class: '',
+                                function: () => nav.push('/LoginsManager')
+                            },
+                            {
+                                nome: 'Gerenciar Cadastro',
+                                class: 'OpstionSelct',
+                                function:  () => nav.push('/inputManager')
+                            }
+                        ]
+                    }
+                />
 
-                                )
-                            
+            <PaginasListar
+                TituloPagina={'Solicitações de Cadastro'}
+                FiltroSimples={
+                    {
+                        label: 'Pesquisar por: Nome ou Email',
+                        filtro: filtro,
+                        setFiltro: setFiltro,
+                        FiltrosAvancado: null,
+                        setFiltrosAvancado: null,
+
+                    }
+                }
+                FiltrosAvancado={
+                    {
+                        Inputs: [
+                        
+                        ]
+                    }
+                    
+                }
+                Table={
+                    {
+                        campos: [ 
+                            { 
+                                NCampo: 'Nome Completo',
+                                Id: ''
+                            }, 
+                            {
+                                NCampo: 'Email',
+                                Id: ''
+                            },
+                            {
+                                NCampo: '',
+                                Id: 'Option'
                             }
                             
-                       </tbody>
-                </table>
-            </ContainerConteudo>
+                        ],
+                        registros:  ConverterProdutos(),
+                        options: [
+                            {
+                                img: '/assets/images/Aceitar.svg',
+                                Function: (U) => {GerenciarCadastro(U); setSituacao('Aceitar')}
+                            },
+                            {
+                                img: '/assets/images/Recusar.svg',
+                                Function: (U) => {GerenciarCadastro(U); setSituacao('Recusar')  }
+                            }
+                        ],
+                        Function: ''
+                    }
+                }
+            />
+
+                
         </Container>
     )
 

@@ -63,13 +63,13 @@ import axios from 'axios'
                 return r.data
             }
 
-            async ListarControleEstoque () {
-                let r = await api.get('/controleEstoque')
+            async ListarControleEstoque (nomeP, codigoP, NomeUser, DtMovimentacao, categoriaP, buscaAvancada ) {
+                let r = await api.get(`/controleEstoque/?nomeP=${nomeP}&codigoP=${codigoP}&NomeUser=${NomeUser}&DtMovimentacao=${DtMovimentacao}&categoriaP=${categoriaP}&buscaAvancada=${buscaAvancada}`)
                 return r.data
             }
 
-            async ListarProdutosUsuario () {
-                let r = await api.get('/produtosUsuarios')
+            async ListarProdutosUsuario ( nomeP, codigoP, categoriaP, dtCadastro, buscaAvancada ) {
+                let r = await api.get(`/produtosUsuarios/?nomeP=${nomeP}&codigoP=${codigoP}&categoriaP=${categoriaP}&dtCadastro=${dtCadastro}&buscaAvancada=${buscaAvancada}`)
                 return r.data
             }
 

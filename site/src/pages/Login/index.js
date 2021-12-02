@@ -1,12 +1,11 @@
-// import { Link } from "react-router-dom"
-import { Container } from "./styled"
+import { ContainerEscolherLogin } from './styled'
+import ComponentLogin from '../../components/Outros/Acessar/index'
 
-import { confirmAlert } from 'react-confirm-alert'; // Import
-import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import {useHistory } from 'react-router-dom'
 import Cookie from 'js-cookie'
 
 import Api from '../../service/api'
@@ -18,15 +17,18 @@ export default function Login() {
 const [ email, setEmail ] = useState('')
 const [ senha, setSenha ] = useState('')
 
+const [ loginUser, setLoginUser ] = useState(null)
+
     let nav = useHistory()
 
     let cookie = Cookie.get('User')
     let cookieAdm = Cookie.get('Adm')
 
-    console.log('L26 Login - ' + cookieAdm)
+    // Cookie.remove('User')
+
 
         if(cookie !== undefined && JSON.parse(cookie).bt_ativo === true )  { 
-            nav.push('/home')
+            nav.push('/List')
 
         } else if( cookieAdm !== undefined ){ 
             nav.push('/inputManager')
@@ -36,85 +38,95 @@ const [ senha, setSenha ] = useState('')
     let Login = async() => {
 
         if( email === '' || senha === '' ){
-            alert('Todos os campos devem estar preenchidos')
+            toast.error('Todos os campos devem estar preenchidos')
             return
         }
 
-        let user = await api.loginUsuario({email, senha})
-        let adm = await api.loginAdm({email, senha})
+        if ( loginUser === true ){
+            let user = await api.loginUsuario({email, senha})
+
+                if(user.erro !== undefined){
+                    toast.error(user.erro)
+                } else{
+                    Cookie.set('User', JSON.stringify(user) )
+                    nav.push('/wait')
+                }
+
+        } else if ( loginUser === false ){
+            let adm = await api.loginAdm({email, senha})
+
+            if(adm.erro !== undefined){
+                toast.error(adm.erro)
+            } else{
+                Cookie.set('Adm', JSON.stringify(adm))
+                nav.push('/LoginsManager')
+
+            }
+
+        }
 
 
-            confirmAlert({
-                title: 'Fazer Login Como ADM?',
-                message: 'Deseja fazer login no site com uma conta administrativa?',
-                buttons: [
-                    {
-                        label: 'Sim',
-                        onClick: () => {
-                            if( adm.erro !== undefined ){
-                                alert(adm.erro)
-                                return
-                            } else {
-
-                                Cookie.set('Adm', JSON.stringify(adm))
-                                nav.push('/inputManager')
-                            }
-                        }
-                    },
-                    {
-                        label: 'Não',
-                        onClick: () => {
-                            if(user.erro !== undefined){
-                                alert(user.erro)
-                                return
-                            } else {
-                
-                                Cookie.set('User', JSON.stringify(user))
-                
-                                    if(user.bt_ativo === false){
-                                        nav.push('/wait')
-                                    } else {
-                                        nav.push('/home')
-                                    }
-                                
-                            }
-                        }
-                    }
-                ]
-            })
 
     }
 
     return (
-        <Container>
+        <div>
+            <ToastContainer />
 
-            <div className="image">
-                <img src="./assets/images/banner.svg" alt="" />
-            </div>
-            <div className="inser-info">
-                <div className="message">Seja Bem-Vindo ! </div>
-                <div className="emails"> 
-                    <input type="email"
-                            name="email" 
-                            placeholder=" Email"
-                            value={email}
-                            onChange={ (e) => setEmail(e.target.value) }
-                    />
-                </div>
-                <div className="password">  
-                    <input type="password" 
-                            placeholder="Senha"
-                            value={senha}
-                            onChange={ (e) => setSenha(e.target.value) }
-                    />
-                </div>
-                <div className="register-but"  > 
-                    <button onClick={ () => nav.push('/cadastrarse') }> Cadastrar-se </button>
-                </div>
+            {
+                loginUser === null
 
-                <div className="access" onClick={ () => Login() }> <button>Acessar</button> </div>
-            </div>
-        </Container>
+                ?
+                    <ContainerEscolherLogin>
+                        <div className="BoxLogin">
+                            <div className="Titulo">
+                                <div className="LineTitulo" ></div>
+                                Fazer Login Como?
+                            </div>
+                            <div className='Buttons'>
+                                <button onClick={ () => setLoginUser(false) } > Administrador </button>
+                                <button onClick={ () => setLoginUser(true) } > Usuário </button>
+                            </div>
+                        </div>
+                    </ContainerEscolherLogin>
+
+                :
+                    <ComponentLogin 
+                        Titulo="Fazer Login"
+                        Inputs={[ 
+                            {
+                                label: 'Email',
+                                type: 'email',
+                                value: email,
+                                setValue: setEmail
+                            },
+                            {
+                                label: 'Senha',
+                                type: 'password',
+                                value: senha,
+                                setValue: setSenha
+                            }
+                        ]}
+                        LabelPush={
+                            {
+                                Query: 'Já tem uma conta?',
+                                LinkText: 'Cadastrar-se',
+                                Path: '/cadastrarse'
+                            }
+                        }
+                        Button={
+                            {
+                                Function: Login,
+                                Text: 'Entrar'
+                            }
+                        }
+                    />
+
+            }
+
+        </div>
+        
     )
     
 }
+

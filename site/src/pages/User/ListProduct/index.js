@@ -1,19 +1,17 @@
-import { Listar, Container } from "./styled"
-import Cabecalho from '../../../components/cabecalho/styled'
-import Titulo from "../../../components/user-titulo/styled"
-import Pesquisar from "../../../components/pesquisar/styled"
-import Button from "../../../components/button-filtrar/button-filtro"
-import Inputs from "../../../components/button-filtrar/inputs"
-import Menu from "../../../components/menuUser/styled"
+import Cabecalho from '../../../components/cabecalho/index'
+import PaginaListar from '../../../components/Outros/PaginaListar/index'
 
+import CadastrarProduto from '../RegisterProdut/index'
+import ControleEstoque from '../Replacement/index'
 
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Cookie from 'js-cookie'
 import { useState, useEffect } from 'react'
-import { Link, useHistory } from 'react-router-dom'
 
 import Api from '../../../service/api'
 const api = new Api()
@@ -27,36 +25,70 @@ const [codigoP, setCodigoP] = useState('')
 const [categoriaP, setCategoriaP] = useState('')
 const [dtCadastro, setDtCadastro] = useState('')
 
+const [FiltrosAvancado, setFiltrosAvancado] = useState(false);
 const [filtro, setFiltro] = useState('')
-const [FiltrosA, setFiltrosA] = useState(false);
+const [ abaixoEstoque, setAbaixoEstoque ] = useState(false)
 
+const [ produtoAlterar, setProdutoAlterar] = useState(null)
+const [ exibirCadastrarProduto, setExibirCadastrarProduto ] = useState(false)
+const [ exibirControleEstoque, setExibirControleEstoque] = useState(false)
+const [ controleEstoque, setControleEstoque] = useState(null)
 
-let nav = useHistory()
 
     const ListarProdutos = async() => {
         let cookie = JSON.parse( Cookie.get('User') )
 
         let p = null
 
-        if(FiltrosA === false){
+        if(FiltrosAvancado === false){
             p = await api.listarProdutos(cookie.id_usuario, filtro, filtro, '', '', 'false')
-            console.log(filtro)
         } else {
             p = await api.listarProdutos(cookie.id_usuario, nomeP, codigoP, categoriaP, dtCadastro, 'true' )
         }
 
             if( p.erro !== undefined ){
-                alert(p.erro)
+                toast.error(p.erro)
             } else {
                 setProdutos(p)
             }
     }
         useEffect( () => {
+
+            const ListarProdutos = async() => {
+                let cookie = JSON.parse( Cookie.get('User') )
+        
+                let p = null
+        
+                if(FiltrosAvancado === false){
+                    p = await api.listarProdutos(cookie.id_usuario, filtro, filtro, '', '', 'false')
+                } else {
+                    p = await api.listarProdutos(cookie.id_usuario, nomeP, codigoP, categoriaP, dtCadastro, 'true' )
+                }
+        
+                    if( p.erro !== undefined ){
+                        toast.error(p.erro)
+                    } else {
+                        setProdutos(p)
+                    }
+            }
+
             ListarProdutos()
-        }, [FiltrosA, filtro, nomeP, codigoP, categoriaP, dtCadastro] )
+        }, [FiltrosAvancado, filtro, nomeP, codigoP, categoriaP, dtCadastro, exibirCadastrarProduto, exibirControleEstoque] )
 
 
-    const DeletarProduto = async( idProduto ) => {
+
+    const DeletarProduto = async( produto ) => {
+
+        let idProduto = null
+
+        for( let i of produto ){
+
+            if(typeof(i) === 'object'){
+                idProduto = (i.id_usuario)
+                break
+            }
+            
+        }
 
         confirmAlert({
             title: 'Remoção de Produto',
@@ -67,9 +99,9 @@ let nav = useHistory()
                     onClick: async () => { let r = await api.deletarProduto(idProduto);
 
                         if( r.erro !== undefined ){
-                            alert(r.erro)
+                            toast.error(r.erro)
                         } else {
-                            alert('Produto Removido com Sucesso')
+                            toast.success('Produto Removido com Sucesso')
                             ListarProdutos()
                         }
                        
@@ -78,7 +110,7 @@ let nav = useHistory()
                 {
                     label: 'Não',
                     onClick: () => {
-                        alert('Produto Não Removido')
+                        toast.success('Produto Não Removido')
 
                     }
                 }
@@ -88,79 +120,220 @@ let nav = useHistory()
     }
 
     
-    async function Filtrar() {
-        if(FiltrosA === true){
-            setFiltrosA(false)
+   
+
+    // Converte os registros dos produtos em Array para mandar para o component Table
+
+    function ConverterProdutos(){
+
+        let p = []
+
+        for( let i of produtos ){
+            p.push( [i.nm_produto, i.ds_categoria, i.nr_codigo, i.qtd_minima, i.qtd_atual, i.vl_custo, i.vl_venda, i.dt_cadastro, i ] )
         }
-        else {
-            setFiltrosA(true)
+
+        return p
+    }
+
+
+    // Filtra Apenas os Produtos Abaixo do Estoque
+
+    function AlterarListagem(){
+
+        if(abaixoEstoque === false){
+            setAbaixoEstoque(true)
+            let PAbaixo = produtos.filter( p => p.qtd_atual < p.qtd_minima )
+            setProdutos(PAbaixo)
+        } else {
+            setAbaixoEstoque(false)
+            ListarProdutos()
         }
     }
 
-    
+    function PassarProdutoParaAlterar( produto ){
+        for( let i of produto ){
+
+            if(typeof(i) === 'object'){
+                setProdutoAlterar(i)
+                break
+            }
+            
+        }
+
+        setExibirCadastrarProduto(true)
+    }
+
+    function PassarProdutoControleEstoque( produto ){
+        for( let i of produto ){
+
+            if(typeof(i) === 'object'){
+                setControleEstoque(i)
+                break
+            }
+            
+        }
+
+        setExibirControleEstoque(true)
+    }
+
+
     return (
-        <Container>
-             <Menu/>
-            <Listar>
-                <Cabecalho />
-                <div className="product">
-                    <Titulo nome="Listar Produtos" />
-                </div> 
-                {/* 
-                <div className="filter">
-                    <div style={{marginRight: '5em'}}> <Pesquisar /> </div>
-                    <div onClick={ () => Filtrar() } className="xx">  <Button/> </div>
-                    <div style={{marginRight: '5em'}}> <Pesquisar filtro={{filtro, setFiltro}} /> </div>
-                </div>   
-                {
-                    FiltrosA === true
-                    ? <Inputs filtros={ {nomeP, setNomeP, codigoP, setCodigoP, categoriaP, setCategoriaP, dtCadastro, setDtCadastro } } />
-                    : ""
+        <div>
+            <ToastContainer />
+            {
+                exibirCadastrarProduto === true 
 
-                }  */}
-                <div className="table">
-                    
-                    <thead>
-                        <th> Nome </th>
-                        <th> Categoria </th>
-                        <th> Código </th>
-                        <th> Qtd. Minima</th>
-                        <th> Qtd. Atual </th>
-                        <th> VL Custo </th>
-                        <th> VL Venda</th>
-                        <th>Data Cadast.</th>
-                        <th className="b"></th>
-                        <th className="a"></th>
+                ? 
+                    <CadastrarProduto esconderPopUp={setExibirCadastrarProduto} AlterarProduto={produtoAlterar} setAlterarProduto={ setProdutoAlterar } />
 
+                : 
+                    ''
 
-                    </thead>
-                    <tbody>
+            }
+             {
+                exibirControleEstoque === true 
+
+                ? 
+                    <ControleEstoque esconderPopUp={setExibirControleEstoque} ControleEstoque={controleEstoque} setControleEstoque={setControleEstoque} />
+
+                : 
+                    ''
+
+            }
+            
+            <Cabecalho
+                OptionsNav={
+                    [
                         {
-                            produtos.map( (p) =>
-                            
-                                <tr>
-                                    <td title={p.nm_produto} > {p.nm_produto.length > 12 ? p.nm_produto.substring(0, 12) + '...' : p.nm_produto  } </td>
-                                    <td> {p.ds_categoria} </td>
-                                    <td> {p.nr_codigo}</td>
-                                    <td> {p.qtd_minima} </td>
-                                    <td> {p.qtd_atual} </td>
-                                    <td>R$: {p.vl_custo}</td>
-                                    <td>R$: {p.vl_venda}</td>
-                                    <td> {p.dt_cadastro}</td>
-                                    <td> <img onClick={ () => nav.push({ pathname: '/Register', state: p })  } src="./assets/images/edit_icon_128873.svg" alt="" style={{cursor: 'pointer'}}/></td>
-                                    <td> <img onClick={ () => DeletarProduto(p.id_produto) } src="./assets/images/Vector.svg" alt="" style={{cursor: 'pointer'}}/></td>
-                                </tr>
-                            
-                            )
-                            
+                            nome: 'Controle Estoque',
+                            class: '',
+                            function: () => setExibirControleEstoque(true) 
+                        },
+                        {
+                            nome: 'Listar Produtos',
+                            class: 'OpstionSelct',
+                            function: ''
+                        },
+                        {
+                            nome: 'Cadastrar Produto',
+                            class: '',
+                            function: () => setExibirCadastrarProduto(true)
+
                         }
-                </tbody>
-                </div>
-                <div className="add">
-                     <Link to="./Register"> <button> Adicionar Produto</button> </Link>
-                </div>
-            </Listar>
-        </Container>
+                    ]
+                }
+            />
+            
+            <PaginaListar
+                TituloPagina={'Listar Produtos'}
+                FiltroSimples={
+                    {
+                        label: 'Pesquisar por: Nome ou Cód',
+                        filtro: filtro,
+                        setFiltro: setFiltro,
+                        FiltrosAvancado: FiltrosAvancado,
+                        setFiltrosAvancado: setFiltrosAvancado
+                    }
+                }
+                FiltrosAvancado={
+                    {
+                        Inputs: [
+                            {
+                                Label: 'Nome',
+                                Value: nomeP,
+                                SetValue: setNomeP,
+                                Type: 'text'
+                            },
+                            {
+                                Label: 'Código',
+                                Value: codigoP,
+                                SetValue: setCodigoP,
+                                Type: 'text'
+                            },
+                            {
+                                Label: 'Categoria',
+                                Value: categoriaP,
+                                SetValue: setCategoriaP,
+                                Type: 'text'
+                            },
+                            {
+                                Label: 'Data de Cadastro',
+                                Value: dtCadastro,
+                                SetValue: setDtCadastro,
+                                Type: 'date'
+                            }
+                        ],
+                        Buttons: [
+                            {
+                                Label: abaixoEstoque === false ? 'Abaixo do Estoque' : 'Todos Produtos',
+                                // SetValue: setAbaixoEstoque,
+                                Function: AlterarListagem
+                            }
+                        ]
+                    }
+                    
+                }
+                Table={
+                    {
+                        campos: [ 
+                            { 
+                                NCampo: 'Nome',
+                                Id: ''
+                            }, 
+                            {
+                                NCampo: 'Categoria',
+                                Id: ''
+                            },
+                            { 
+                                NCampo: 'Código',
+                                Id: ''
+                            }, 
+                            {
+                                NCampo: 'Qtd. Mínima', 
+                                Id: ''
+                            },
+                            {  
+                                NCampo: 'Qtd. Atual',
+                                Id: ''
+                            },
+                            {
+                                NCampo: 'Vl. Custo',
+                                Id: ''
+                            }, 
+                            {
+                                NCampo: 'Vl. Venda',
+                                Id: ''
+                            }, 
+                            {
+                                NCampo: 'Dt. Cadastro',
+                                Id: ''
+                            },
+                            {
+                                NCampo: '',
+                                Id: 'Option'
+                            }
+                            
+                        ],
+                        registros:  ConverterProdutos(),
+                        options: [
+                            {
+                                img: '/assets/images/Edit.svg',
+                                Function: PassarProdutoParaAlterar
+                            },
+                            {
+                                img: '/assets/images/Delete.svg',
+                                Function: DeletarProduto
+                            }
+                        ],
+                        Function: PassarProdutoControleEstoque
+                    }
+                }
+            />
+
+        </div>
        
         )
     }
+
+
+    

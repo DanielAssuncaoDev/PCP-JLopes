@@ -1,4 +1,9 @@
-import { Container } from "./styled"
+import ComponentCadastrarse from '../../components/Outros/Acessar/index'
+
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import { useState } from "react"
 import { useHistory } from 'react-router-dom'
 
@@ -24,9 +29,9 @@ let cookie = Cookie.get('User')
 
             if( user.erro !== undefined )
             {
-                alert(user.erro)
+                toast.error(user.erro)
             } else {
-                alert('Cadastro criado!')
+                toast.success('Cadastro criado!')
                 Cookie.set('User', JSON.stringify(user))
                 nav.push('/wait')
             }
@@ -35,57 +40,44 @@ let cookie = Cookie.get('User')
 
 
     return (
-        <Container>
-            <div className="image">
-                <img src="./assets/images/banner.svg" alt="" />
-            </div>
-            <div className="inser-info">
-                <div className="Form">
-                    <div className="message"> Cadastrar-se </div>
-                        <div className="FormCadastarse" >
-                            <div className="names"> 
-                                <div> Nome Completo </div> 
-                                <input type="name" id="name" name="name" 
-                                            value={nome}
-                                            onChange={ (e) => {
-                                                    setNome(e.target.value)
-                                                }
-                                            }
-                                /> 
-                            </div>
-                            <div className="credenciais">
-                                <div className="email">
-                                    <div> Email  </div> 
-                                    <input type="email" id="email" name="email" 
-                                                value={email}
-                                                onChange={ (e) => {
-                                                        setEmail(e.target.value)
-                                                    } 
-                                                }
-                                    /> 
-                                </div>
-                                    <div className="password"> 
-                                        <div> Senha </div> 
-                                        <input type="password" id="password" name="password"
-                                                    value={senha}
-                                                    onChange={ (e) => {
-                                                            setSenha(e.target.value)
-                                                        } 
-                                                    }
-                                        />
-                                    </div>
-
-                            </div>
-
-                            <div className="fazerLogin">
-                                <label> Já tem uma conta? </label>
-                                <label onClick={ () => nav.push('/login') } > Fazer Login  </label>
-                            </div>
-                            
-                            <div className="access"> <button onClick={() => CadastrarUsuario()} >Acessar</button> </div>
-                        </div>
-                    </div>
-                </div>
-        </Container>
+    <div>
+        <ToastContainer /> 
+        <ComponentCadastrarse 
+            Titulo="Cadastrar-se"
+            Inputs={[
+                {
+                    label: "Nome Completo",
+                    type: "text",
+                    value: nome,
+                    setValue: setNome
+                },
+                {
+                    label: "Email",
+                    type: "email",
+                    value: email,
+                    setValue: setEmail
+                },
+                {
+                    label: "Senha",
+                    type: "password",
+                    value: senha,
+                    setValue: setSenha
+                }
+            ]}
+            LabelPush={
+                {
+                    Query: "Já tem uma conta?",
+                    LinkText: "Fazer Login",
+                    Path: "/login"
+                }
+            }
+            Button={
+                {
+                    Text: "Cadastrar-se",
+                    Function: CadastrarUsuario
+                }
+            }
+        />
+    </div>
     )
 }

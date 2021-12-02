@@ -1,80 +1,143 @@
-import { useHistory } from 'react-router-dom'
-import { useState, useEffect } from  'react'
-import Cookie from 'js-cookie'
+import Styled from 'styled-components'
 
-import styled from "styled-components"
+export const Container = Styled.div`
 
-
-const ContainerCabe = styled.div `
-
-background-color: white;
-display: flex;
-justify-content: space-between;
-align-items: center;
-width: 81.2vw;
-
-padding: 10px 0px;
-.descri {
+    width: 100%;
+    height: 5em;
+    padding: 0 2em;
     display: flex;
-    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-}
 
-.descri > div {
-margin-right: 17px;
-}
+    background-color: #17191A;
+    color: #D2D2D2;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, .30 );
 
-.fot {
-    margin-left: 18px;
-}
+    .Box-SejaBemVindo{
+        font: 300 20px Roboto;
+        color: #FFF;
 
-img:hover {
-cursor: pointer;
-}
+        span{
+            font: 700 20px Glegoo;
+        }
 
-`  
-
-
-
-export default function CabeCalho() {
-    const nav = useHistory()
-
-    const cookieUser = Cookie.get('User')
-    
-const [nomeUser, setNomeUser] = useState('')
-
-useEffect( () => {
-    if( JSON.parse(cookieUser).nm_usuario !== undefined ){
-        let nome = JSON.parse(cookieUser).nm_usuario
-        nome = nome.substring(0, nome.indexOf(' '))
-        
-        setNomeUser(nome)
-    } else {
-        setNomeUser('João Lopes')
     }
-}, [] )
+
+    #Menu{
+        visibility: collapse;
+    }
+
+    .Options{
+        display: flex;
+
+        div{
+            font: 400 16px Glegoo;
+            /* margin: 0 7px; */
+            padding: 5px 12px;
+            cursor: pointer;
+
+            transition-property: all;
+            transition-duration: .5s;
+
+            &:hover{
+                background: #333333;
+            }
+        }
+
+        .OpstionSelct{
+            font-weight: 700;
+            color: #FFFFFF;
+        }
+
+    }
+
+    .Box-Exit{
+        width: 208px;
+       
+        display: flex;
+        justify-content: flex-end;
+
+        div{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+
+            transition-property: all;
+            transition-duration: .5s;
+
+            &:hover{
+                background: #333333;
+            }
+        }
+    }
+
+    @media (max-width: 1024px){
+        
+        .Box-Exit{
+            width: auto;
+        }
+
+    }
+
+    @media (max-width: 900px){
+        
+        .Box-SejaBemVindo{
+            font-size: 18px ;
+
+            span{
+                font-size: 18px;
+            }
+
+        }
+
+        .Options{
+
+            div{
+                font-size: 14px;
+                margin: 0 2px;
+            }
+        }
+    }
+        @media (max-width: 770px){
+        
+            top: 0px;
+            position: sticky;
+
+            .Options,
+            #Exit{
+                display: none;
+            }
+
+            #Menu{
+                visibility: visible;
+                width: 20px;
+                height: 20px;
+
+            }
+
+           
+
+        }
 
 
-    return (
-        <ContainerCabe>
-            <div className="descri">
-                <div className="fot"> <img src="./assets/images/Group.svg" alt="" /> </div>
-                <div className="names"> Olá, <b>{nomeUser}</b> </div>
-            </div>
-            <div className="desc">
-                <img src="./assets/images/sair.svg" alt="" 
-                        onClick={ () => {
-                                    if( cookieUser !== undefined ){
-                                        Cookie.remove('User')
-                                    } else {
-                                        Cookie.remove('Adm')
-                                    }
-                                nav.push('/')
 
-                            }
-                        }
-                />
-            </div>
-        </ContainerCabe>
-    )
-}
+        @media (max-width: 400px){
+        
+            padding: 0 1em;
+
+            .Box-SejaBemVindo{
+                font-size: 15px ;
+
+                span{
+                    font-size: 15px;
+                }
+
+            }
+
+        }
+
+`

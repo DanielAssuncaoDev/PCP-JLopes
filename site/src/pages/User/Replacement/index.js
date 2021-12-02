@@ -1,77 +1,95 @@
 
-import {ContRepor, Container} from "./styled"
-import Cabecalho from '../../../components/cabecalho/styled'
-import Titulo from "../../../components/user-titulo/styled"
-import Pesquisar from "../../../components/pesquisar/styled"
-import Menu from '../../../components/menuUser/styled'
+import { Container} from "./styled"
 
 import { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
 import Cookie from 'js-cookie'
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Api from '../../../service/api'
 const api = new Api()
 
-export default function Repor() {
+export default function Repor( props ) {
 
-const [ produtos, setProdutos ] = useState([])
+const [ codigoP, setCodigoP ] = useState('')
+const [ qtdM, setQtdM ] = useState('')
 
-const [filtro, setFiltro] = useState('')
-
-const nav = useHistory()
-
-    const ListarProdutosFalta = async() => {
-        let cookie = JSON.parse( Cookie.get('User') )
-        let p = await api.listarProdutos(cookie.id_usuario, filtro, filtro, '', '', false)
-
-        console.log(filtro)
-
-        let pFalta = p.filter( (x) => x.qtd_minima > x.qtd_atual )
-        setProdutos(pFalta)
-        console.log(pFalta)
-    }
+    // function PegarCodigo(){
+    //     if( props.ControleEstoque !== null ){
+    //         let cod = props.ControleEstoque.nr_codigo
+    //         setCodigoP(cod)
+    //         props.setControleEstoque(null)
+    //     }
+    // }
         useEffect( () => {
-            ListarProdutosFalta()
-        }, [filtro] )
+            function PegarCodigo(){
+                if( props.ControleEstoque !== null ){
+                    let cod = props.ControleEstoque.nr_codigo
+                    setCodigoP(cod)
+                    props.setControleEstoque(null)
+                }
+            }
 
+            PegarCodigo()
+        }, [props] )
+
+
+    const ControleEstoque = async(mov) => {
+        let cookieUser = JSON.parse( Cookie.get('User') )
+        let ce = await api.controleEstoque( cookieUser.id_usuario,  {codigoP, qtdM, mov} )
+
+        if( codigoP === '' || qtdM === '' ){
+            toast.error('Todos os campos devem estar preenchidos')
+            return        
+        }
+
+        if(ce.erro !== undefined){
+            toast.error(ce.erro)
+        } else {
+            toast.succes('Movimentação Realizada')
+            props.esconderPopUp(false)
+        }
+    }
+    
 
     return (
         <Container>
-            <Menu/>
-            <ContRepor>
-                <Cabecalho />
-                 <div className="til"><Titulo nome="Sugestão de Reposição"/> </div>
-                 <div className="pes"><Pesquisar filtro={{filtro, setFiltro}} /> </div>
-                <div className="table">
-                    <thead>
-                            <th> Nome </th>
-                            <th> Código </th>
-                            <th > Qtd. Minima</th>
-                            <th> Qtd. Atual </th>
-                            <th> VL Custo </th>
-                            <th> VL Venda</th>
-                            <th className="a"> </th>
-                    </thead>
-
-                    <tbody>
-                        {
-                            produtos.map( 
-                                (p) => 
-                                    <tr>
-                                        <td> {p.nm_produto} </td>
-                                        <td> {p.nr_codigo} </td>
-                                        <td> {p.qtd_minima} </td>
-                                        <td style={{color: 'red'}} > {p.qtd_atual} </td>
-                                        <td>R$: {p.vl_custo}</td>
-                                        <td>R$: {p.vl_venda}</td>
-                                        <td> <img  onClick={ () => nav.push( {pathname: '/Movement', state: p} )} src="./assets/images/reset.svg" alt=""/></td>
-                                    </tr>
-                                )
-                        }
-                        
-                    </tbody>
+            <ToastContainer />
+            <div className="BoxControleEstoque">
+                <div className="Option"> 
+                    <div  onClick={ () => props.esconderPopUp(false) } className="BoxClose">
+                        <img src="/assets/images/Close.svg" alt="" />
+                    </div>
                 </div>
-            </ContRepor>
+
+                <div className="Titulo">
+                    <div className="LineTitulo" ></div>
+                    Controle de Estoque
+                </div>
+
+                <div className="Conteudo">
+                    <div className="Input">
+                        <label> Código do Produto </label>
+                        <input 
+                            value={codigoP}
+                                onChange={ (e) => setCodigoP(e.target.value)}
+                        />
+                    </div>
+                    <div className="Input">
+                        <label> Qtd. Movimentada </label>
+                        <input 
+                            value={qtdM}
+                                onChange={ (e) => setQtdM(e.target.value)}
+                        />
+                    </div>
+                    <div className="Buttons">
+                        <button onClick={ () => ControleEstoque('Saida') } > Saída </button>
+                        <button onClick={ () => ControleEstoque('Entrada') } > Entrada </button>
+                    </div>
+                </div>
+            </div>
         </Container>
     )
 }
+
