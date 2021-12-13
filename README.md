@@ -9,6 +9,8 @@ O projeto foi solicitado pelo professor de logística da Instituição Nossa Sen
 <!-- 
   $ git config --global user.name "DanielAssuncaoDev"
   $ git config --global user.email danielaristotelis@gmail.com
+
+  git branch -M Heroku
 -->
 
 ## Stack
