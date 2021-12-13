@@ -111,7 +111,7 @@ useEffect(() => {
                     {
                         Inputs: [
                             {
-                                Label: 'Nome',
+                                Label: 'Nome Produto',
                                 Value: nomeP,
                                 SetValue: setNomeP,
                                 Type: 'text'
@@ -134,7 +134,11 @@ useEffect(() => {
                                 SetValue: setDtCadastro,
                                 Type: 'date'
                             }
+                        ],
+                        Buttons: [
+
                         ]
+
                     }
                     
                 }
