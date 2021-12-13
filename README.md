@@ -4,6 +4,12 @@ A aplicação simula um controle de estoque. Os usuários podem inserir, alterar
 
 O projeto foi solicitado pelo professor de logística da Instituição Nossa Senhora de Fátima. O intúito do projeto é auxiliar o professor em suas aulas.
 
+<!-- PCPJLopes.Heroku -->
+<!-- git subtree push --prefix api  PCPJLopes.Heroku master -->
+<!-- 
+  $ git config --global user.name "DanielAssuncaoDev"
+  $ git config --global user.email danielaristotelis@gmail.com
+-->
 
 ## Stack
 
