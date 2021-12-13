@@ -865,7 +865,7 @@ import require from 'sequelize'
                         value: req.query.dtCadastro
                     }   
                 ]
-           
+                
 
                 filtros = filtros.filter( (c) => c.value != '' )
 
